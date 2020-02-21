@@ -1,3 +1,5 @@
+import javafx.application.Application
+
 fun main (args: Array<String>) {
     if (args.size != 1) {
         val program = System.getProperty("sun.java.command").split(".")[0]
@@ -8,5 +10,7 @@ fun main (args: Array<String>) {
         val board = BoardFactory().square(n)
         println(board)
     }
+
+     Application.launch(GUI::class.java, *args)
 }
 

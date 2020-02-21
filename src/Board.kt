@@ -11,6 +11,16 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, 
         for (peg in pegs) { builder.append(peg) }
         return "Board with following pegs\n:$builder"
     }
+
+    fun numPegs(): Int {
+        var numPegsInBoard: Int = 0
+        for (peg in pegs) {
+            if (peg.value.value == 1) {
+                numPegsInBoard++
+            }
+        }
+        return numPegsInBoard;
+    }
 }
 
 /**
