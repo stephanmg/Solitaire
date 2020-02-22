@@ -4,8 +4,9 @@
  * @param pegs building blocks of board
  * @param pegRow position of (jumped) peg in 2d which created the next board position
  * @param pegCol position of (jumped) peg in 2d which created the next board position
+ * @param size dimensions of board
  */
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, val pegCol: Int=-1) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, val pegCol: Int=-1, val size: Int=0) {
     override fun toString(): String {
         val builder = StringBuilder()
         for (peg in pegs) { builder.append(peg) }
@@ -35,12 +36,13 @@ class BoardFactory {
     // Square board
     fun square(n: Int): Board {
         val board = empty()
-        for (i in 1..n) {
-            for (j in 1..n) {
-                if (i == (n / 2) + 1 && j == (n / 2) + 1) {
-                    board.pegs[Pair(i, j)] = Peg(j + (i - 1) * n, 1, i, j)
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
+                    println("Empty peg at: $i,$j")
+                    board.pegs[Pair(i, j)] = Peg(j + i * n, 0, i, j)
                 } else {
-                    board.pegs[Pair(i, j)] = Peg(j + (i - 1) * n, 0, i, j)
+                    board.pegs[Pair(i, j)] = Peg(j + i * n, 1, i, j)
                 }
             }
         }
