@@ -9,10 +9,10 @@ import javafx.stage.Stage
 
 /**
  * @brief test GUI
- * TODO will be refactored to use Javalin
+ * TODO will be refactored to use Javalin API
  * @url https://javalin.io/
  */
-private class GUI : Application() {
+class GUI : Application() {
     /**
      * @brief stage
      */

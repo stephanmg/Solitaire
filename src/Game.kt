@@ -17,21 +17,21 @@ class Game {
     }
 
     /**
-     * Node representing a board in our queue
+     * @brief Node representing a board in our queue
      */
     private data class Node(var board: Board?=null)
 
     /**
-     * Play interactively
+     * @brief Play interactively
      *
-     * Let a user play (Maybe frontend in React?) and invoke dfs_solve each time to
+     * Notes: Let a user play (Maybe frontend in React?) and invoke dfs_solve each time to
      * indicate if solution still possible or if the user has lost the game already
      * @param peg start peg
      */
     fun play(peg: Peg) {
         var lost = false;
         while (!lost) {
-            // ask for user input, then jump
+            /// TODO: Implement. Ask for user input, then jump accordingly
         }
     }
 
@@ -82,6 +82,7 @@ class Game {
     }
 
     /**
+     * @brief doJump
      * Actual do the jump in the board
      * @param peg
      * @param direction
@@ -102,6 +103,7 @@ class Game {
     }
 
     /**
+     * @brief jump
      * Helper method to perform check and then jump if possible
      * @param peg
      * @param direction
@@ -114,9 +116,10 @@ class Game {
     }
 
     /**
+     * @brief testJump
      * Little test function for jumpable
      */
-    public fun testJump(currentBoard: Board) {
+    fun testJump(currentBoard: Board) {
         for (peg in currentBoard.pegs.values) {
             enumValues<Direction>().forEach {
                 canJump(peg, it, currentBoard)
@@ -126,6 +129,7 @@ class Game {
 
     /**
      * @brief DFS solve
+     * Finds some solution or all solutions if solution is feasible
      * @param currentBoard
      * Will be used during interactive game play
      */
@@ -163,7 +167,8 @@ class Game {
 }
 
 /**
- * Play a game
+ * @brief main
+ * Play a test game
  */
 fun main() {
     /// Square board of n=5 has solution with 5 pegs left, probably a coincidence

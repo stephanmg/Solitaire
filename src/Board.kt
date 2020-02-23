@@ -1,12 +1,11 @@
 /**
- * A board consists out of pegs.
+ * @brief A representation of a game board
+ * The game board consists out of pegs which may be empty or full or undefined (not part of the board or boundary)
  *
  * @param pegs building blocks of board
- * @param pegRow position of (jumped) peg in 2d which created the next board position
- * @param pegCol position of (jumped) peg in 2d which created the next board position
  * @param size dimensions of board
  */
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, val pegCol: Int=-1, val size: Int=0) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
     /**
      * @brief toString()
      * @see Object.toString()
@@ -22,12 +21,8 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, 
      * @return number of pegs in board as Int
      */
     fun numPegs(): Int {
-        var numPegsInBoard: Int = 0
-        for (peg in pegs) {
-            if (peg.value.value == 1) {
-                numPegsInBoard++
-            }
-        }
+        var numPegsInBoard = 0
+        for (peg in pegs) if (peg.value.value == 1) numPegsInBoard++
         return numPegsInBoard;
     }
 
@@ -36,27 +31,26 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val pegRow: Int=-1, 
      * @param pegs
      * @return deep-copied board as Board
      */
-    fun copy(pegs: MutableMap<Pair<Int, Int>, Peg> = this.pegs.toMutableMap()) =
-        Board(pegs, this.pegRow, this.pegCol, this.size)
+    fun copy(pegs: MutableMap<Pair<Int, Int>, Peg> = this.pegs.toMutableMap()) = Board(pegs, this.size)
 }
 
 /**
- * A board factory creates empty and square boards
+ * @brief A board factory
+ * Creates empty and square boards
  */
 class BoardFactory {
     /**
      * @brief creates an empty board
-     * @param pegCol
-     * @param pegRow
      * @param size
      * @return board
      */
-    private fun empty(pegCol: Int=-1, pegRow:Int=-1, size: Int=0): Board {
-        return Board(mutableMapOf(), pegCol, pegRow, size)
+    private fun empty(size: Int=0): Board {
+        return Board(mutableMapOf(), size)
     }
 
     /**
      * @brief creates a square board
+     * The board consists out of n^2-1 pegs and the center peg is removed in the board
      * @param n size of board
      * @return board
      */
