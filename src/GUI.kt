@@ -23,16 +23,28 @@ class GUI : Application() {
 
         val root = StackPane()
 
-        val scene = Scene(root, 300.0, 300.0)
+        val scene = Scene(root, 135.0, 105.0)
 
 
-        val n = 9
+        val n = 5
         val gridPane = GridPane()
 
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        val callback = fun(btn: Button) {
+        var currentBoard: Board = BoardFactory().square(5)
+
+        val callback = fun(btn: Button, i: Int, j: Int) {
+
+            println(btn.text);
+            /// TODO: Convert * and " " to 1 and 0 -> Better use a MVC framework
+            enumValues<Game.Direction>().forEach {
+                if (GameUtils.canJump(Peg(-1, 1, i, j), it, currentBoard)) {
+                        println("Can Jump!")
+                    /// If jumpable, do jump and draw new board: fun drawBoard(board: Board)
+                }
+            }
+
             if (count == 0) {
                 curBtn = btn
                 nextBtn = null
@@ -52,15 +64,15 @@ class GUI : Application() {
             }
         }
 
-        for (i in 1..n) {
-            for (j in 1..n) {
+        for (i in 0 until n) {
+            for (j in 0 until n) {
                 val btn = Button()
-                if (i == (n+1)/2 && j == (n+1)/2) {
+                if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
                     btn.text = " "
                 } else {
                     btn.text = "*"
                 }
-                btn.onAction = EventHandler<ActionEvent> { println("Callback!"); callback(btn) }
+                btn.onAction = EventHandler<ActionEvent> { println("Callback!"); callback(btn, i, j) }
                 gridPane.add(btn, j, i, 1, 1)
             }
         }

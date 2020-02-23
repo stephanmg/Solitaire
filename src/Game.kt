@@ -9,7 +9,7 @@ class Game {
     /**
      * Legal jump directions are: NORTH, SOUTH, EAST, WEST
      */
-    private enum class Direction {
+    enum class Direction {
         NORTH,
         SOUTH,
         WEST,
@@ -40,7 +40,7 @@ class Game {
      * @param peg
      * @param direction
      */
-    private fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
+    fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
         val pegs = currentBoard.pegs
         val i = peg.i
         val j = peg.j
@@ -162,6 +162,51 @@ class Game {
             println("Queue empty and no solution found so far! No solution exists?");
         } else {
             println("We found #$numSolutionsSoFar ways (Sequence of boards/jumps) to solve the problem")
+        }
+    }
+}
+
+object GameUtils {
+    @JvmStatic
+    fun canJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Boolean {
+        val pegs = currentBoard.pegs
+        val i = peg.i
+        val j = peg.j
+
+        /**
+         * @brief check if a peg can jump in current board configuration
+         * @param x
+         * @param y
+         * @return true if can jump otherwise false
+         */
+        fun jumpable(x: Int, y:Int): Boolean {
+            if (pegs[Pair(i+2*x, j+2*y)] == null) {
+                return false
+            } else  {
+                if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
+                    /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
+                    /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
+                    return false
+                }
+
+                if ((pegs[Pair(i, j)]!!.value == 1) &&
+                    (pegs[Pair(i + x, j + y)]!!.value == 1) &&
+                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == 0)) {
+                    println("jumps to: " + (i+2*x) + ", " + (j+2*y))
+                    println("value at this pos: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value)
+                    println("\n")
+                    return true
+                }
+                return false
+
+            }
+        }
+
+        return when (direction) {
+            Game.Direction.EAST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(1, 0)
+            Game.Direction.NORTH -> jumpable(0,1) // if (onBoundary(i, j)) false else jumpable(0, 1)
+            Game.Direction.SOUTH -> jumpable(0,-1) // if (onBoundary(i, j)) false else jumpable(0, -1)
+            Game.Direction.WEST -> jumpable(-1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
         }
     }
 }
