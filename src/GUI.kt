@@ -7,7 +7,15 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 
-class GUI : Application() {
+/**
+ * @brief test GUI
+ * TODO will be refactored to use Javalin
+ * @url https://javalin.io/
+ */
+private class GUI : Application() {
+    /**
+     * @brief stage
+     */
     override fun start(primaryStage: Stage) {
         val btn = Button()
         btn.text = "Say 'Hello World'"
