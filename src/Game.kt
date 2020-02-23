@@ -126,7 +126,7 @@ class Game {
 
     /**
      * @brief DFS solve
-     * @param board
+     * @param currentBoard
      * Will be used during interactive game play
      */
     fun solveDfs(currentBoard: Board) {
