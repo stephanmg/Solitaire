@@ -14,6 +14,6 @@ fun main (args: Array<String>) {
         val board = BoardFactory().square(n)
         println(board)
     }
-Li     Application.launch(GUI::class.java, *args)
+    Application.launch(GUI::class.java, *args)
 }
 
