@@ -108,7 +108,7 @@ class Game {
      * @param peg
      * @param direction
      */
-    private fun jump(peg: Peg, direction: Direction, board: Board): Board? {
+    fun jump(peg: Peg, direction: Direction, board: Board): Board? {
         if (canJump(peg, direction, board)) {
             return doJump(peg, direction, board)
         }
@@ -181,11 +181,13 @@ object GameUtils {
          */
         fun jumpable(x: Int, y:Int): Boolean {
             if (pegs[Pair(i+2*x, j+2*y)] == null) {
+                println("peg null!")
                 return false
-            } else  {
+            } else {
                 if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
                     /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
                     /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
+                    println("Peg on boundary!")
                     return false
                 }
 
@@ -197,16 +199,68 @@ object GameUtils {
                     println("\n")
                     return true
                 }
+                println("Here!")
+                println(x)
+                println(y)
                 return false
-
             }
         }
 
         return when (direction) {
-            Game.Direction.EAST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(1, 0)
+            Game.Direction.EAST -> jumpable(-1,0) // if (onBoundary(i, j)) false else jumpable(1, 0)
             Game.Direction.NORTH -> jumpable(0,1) // if (onBoundary(i, j)) false else jumpable(0, 1)
             Game.Direction.SOUTH -> jumpable(0,-1) // if (onBoundary(i, j)) false else jumpable(0, -1)
-            Game.Direction.WEST -> jumpable(-1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
+            Game.Direction.WEST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
+        }
+    }
+    /**
+     * @brief doJump
+     * Actual do the jump in the board
+     * @param peg
+     * @param direction
+     */
+    private fun doJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Board {
+        val move: (Peg, Int, Int) -> Unit =
+            { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0;
+                currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0;
+                currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1; }
+
+        when (direction) {
+            Game.Direction.EAST -> move(peg, -1, 0)
+            Game.Direction.NORTH -> move(peg, 0, 1)
+            Game.Direction.SOUTH -> move(peg, 0, -1)
+            Game.Direction.WEST -> move(peg, -1, 0)
+        }
+        return currentBoard
+    }
+
+    /**
+     * @brief jump
+     * Helper method to perform check and then jump if possible
+     * @param peg
+     * @param direction
+     */
+    @JvmStatic
+    fun jump(peg: Peg, direction: Game.Direction, board: Board): Board? {
+        if (canJump(peg, direction, board)) {
+            return doJump(peg, direction, board)
+        }
+        return null
+    }
+
+    /**
+     * @brief get direction
+     * @param i
+     * @param j
+     */
+    @JvmStatic
+    fun getDirection(i: Int, j: Int): Game.Direction? {
+        return when(Pair(i, j)) {
+            Pair(2, 0)  -> Game.Direction.EAST
+            Pair(-2, 0) -> Game.Direction.WEST
+            Pair(0, 2)  -> Game.Direction.NORTH
+            Pair(0, -2) -> Game.Direction.SOUTH
+            else -> null
         }
     }
 }

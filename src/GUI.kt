@@ -3,8 +3,10 @@ import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
+import javafx.stage.Popup
 import javafx.stage.Stage
 
 /**
@@ -33,35 +35,83 @@ class GUI : Application() {
         var nextBtn: Button?
         var count = 0
         var currentBoard: Board = BoardFactory().square(5)
+        var fromPosX: Int = -1
+        var fromPosY: Int = -1
 
         val callback = fun(btn: Button, i: Int, j: Int) {
-
-            println(btn.text);
-            /// TODO: Convert * and " " to 1 and 0 -> Better use a MVC framework
-            enumValues<Game.Direction>().forEach {
-                if (GameUtils.canJump(Peg(-1, 1, i, j), it, currentBoard)) {
-                        println("Can Jump!")
-                    /// If jumpable, do jump and draw new board: fun drawBoard(board: Board)
-                }
+            /// TODO: Better use a MVC or MVVC framework
+            println(btn.text)
+            var value: Int
+            if (btn.text == "*") {
+                value = 1
+            } else {
+                value = 0
             }
+            /*
+            enumValues<Game.Direction>().forEach {
+                if (GameUtils.canJump(Peg(-1, value, i, j), it, currentBoard)) {
+                        println("Can Jump!")
+                }
+            }*/
 
             if (count == 0) {
                 curBtn = btn
                 nextBtn = null
+                fromPosX = i
+                fromPosY = j
             }
             count++
 
             if (count == 2) {
+                val jumpToX = fromPosX - i
+                val jumpToY: Int = fromPosY - j
+
                 nextBtn = btn
                 count = 0
 
-                if (curBtn!!.text == nextBtn!!.text) {
-                    println("Jump not possible")
-                } else {
-                    println("Possible")
+                val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
+                println(dir)
+                println("fromPos: $fromPosX, $fromPosY")
+                if (dir == null) {
+                    println("jump not possible")
+                    return
                 }
+                if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir!!, currentBoard)) {
+                    println("Peg could jump in desired direction")
+                    // do the jump
+                    GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir!!, currentBoard)
+                    /// TODO: Redraw board then! (the below lines will only change the two clicked buttons)
+                    curBtn!!.text = " "
+                    nextBtn!!.text = "*"
+                } else {
+                    println("peg could not jump in desired direction!")
+                }
+
                 println("Callback!")
             }
+            if (currentBoard.numPegs() == 5) {
+                // create a popup
+                // create a popup
+                val popup = Popup()
+
+                // set background
+                val label = Label()
+                label.style = " -fx-background-color: white;"
+                label.text = "Won!"
+
+                // add the label
+                // add the label
+                popup.content.add(label)
+
+                /// TODO: Check if any peg of board can jump, otherwise gameover!
+
+                // set size of label
+                // set size of label
+                label.minWidth = 80.0
+                label.minHeight = 50.0
+                popup.show(primaryStage)
+            }
+
         }
 
         for (i in 0 until n) {
@@ -72,7 +122,11 @@ class GUI : Application() {
                 } else {
                     btn.text = "*"
                 }
-                btn.onAction = EventHandler<ActionEvent> { println("Callback!"); callback(btn, i, j) }
+
+                btn.onAction = EventHandler<ActionEvent> {
+                    println("Callback!");
+                    callback(btn, j, i)
+                }
                 gridPane.add(btn, j, i, 1, 1)
             }
         }
