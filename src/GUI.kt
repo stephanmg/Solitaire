@@ -1,6 +1,7 @@
 import javafx.application.Application
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
@@ -80,6 +81,14 @@ class GUI : Application() {
                     println("Peg could jump in desired direction")
                     // do the jump
                     GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir!!, currentBoard)
+                    for (peg in currentBoard.pegs) {
+                        var button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
+                        if (button is Button) {
+                            var b: Button = button as Button
+                            b.text = if (peg.value.value == 1)  "*" else " "
+                        }
+
+                    }
                     /// TODO: Redraw board then! (the below lines will only change the two clicked buttons)
                     curBtn!!.text = " "
                     nextBtn!!.text = "*"
@@ -89,26 +98,32 @@ class GUI : Application() {
 
                 println("Callback!")
             }
-            if (currentBoard.numPegs() == 5) {
-                // create a popup
-                // create a popup
-                val popup = Popup()
+            fun checkGameOver(): Boolean {
+                for (peg in currentBoard.pegs.values) {
+                    enumValues<Game.Direction>().forEach {
+                        if(GameUtils.canJump(peg, it, currentBoard!!)) {
+                            return false
+                        }
+                    }
+                }
+                return true
+            }
 
+            val won: Boolean = currentBoard.numPegs() == 5
+            val lost: Boolean = checkGameOver()
+
+            if (won || lost) {
                 // set background
                 val label = Label()
-                label.style = " -fx-background-color: white;"
-                label.text = "Won!"
-
-                // add the label
-                // add the label
-                popup.content.add(label)
-
-                /// TODO: Check if any peg of board can jump, otherwise gameover!
-
-                // set size of label
-                // set size of label
                 label.minWidth = 80.0
                 label.minHeight = 50.0
+                val popup = Popup()
+                label.style = " -fx-background-color: white;"
+                // won
+                if (won) { label.text = "Won!"}
+                // game over
+                if (checkGameOver()) { label.text = "Game over!" }
+                popup.content.add(label)
                 popup.show(primaryStage)
             }
 
@@ -140,6 +155,14 @@ class GUI : Application() {
             primaryStage.sizeToScene()
             primaryStage.show()
         }
+    }
+    private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
+        for (node in gridPane.children) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node
+            }
+        }
+        return null
     }
 
 }

@@ -229,7 +229,7 @@ object GameUtils {
             Game.Direction.EAST -> move(peg, -1, 0)
             Game.Direction.NORTH -> move(peg, 0, 1)
             Game.Direction.SOUTH -> move(peg, 0, -1)
-            Game.Direction.WEST -> move(peg, -1, 0)
+            Game.Direction.WEST -> move(peg, 1, 0)
         }
         return currentBoard
     }
@@ -258,8 +258,8 @@ object GameUtils {
         return when(Pair(i, j)) {
             Pair(2, 0)  -> Game.Direction.EAST
             Pair(-2, 0) -> Game.Direction.WEST
-            Pair(0, 2)  -> Game.Direction.NORTH
-            Pair(0, -2) -> Game.Direction.SOUTH
+            Pair(0, -2)  -> Game.Direction.NORTH
+            Pair(0, 2) -> Game.Direction.SOUTH
             else -> null
         }
     }
