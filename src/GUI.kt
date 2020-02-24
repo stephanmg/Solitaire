@@ -7,6 +7,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.StackPane
+import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
 
@@ -26,7 +27,7 @@ class GUI : Application() {
 
         val root = StackPane()
 
-        val scene = Scene(root, 135.0, 105.0)
+        val scene = Scene(root, 250.0, 250.0)
 
 
         val n = 5
@@ -120,9 +121,9 @@ class GUI : Application() {
                 val popup = Popup()
                 label.style = " -fx-background-color: white;"
                 // won
-                if (won) { label.text = "Won!"}
+                if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
-                if (checkGameOver()) { label.text = "Game over!" }
+                if (checkGameOver()) { label.text = "Game over!"; label.textFill = Color.web("#ff0000") }
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
@@ -138,6 +139,10 @@ class GUI : Application() {
                     btn.text = "*"
                 }
 
+                btn.style = "-fx-font-weight: bold"
+                btn.setMaxSize(50.0, 50.0)
+                btn.setMinSize(50.0, 50.0)
+
                 btn.onAction = EventHandler<ActionEvent> {
                     println("Callback!");
                     callback(btn, j, i)
@@ -150,6 +155,7 @@ class GUI : Application() {
 
 
         if (primaryStage != null) {
+            gridPane.requestFocus()
             primaryStage.title = "Solitaire UI"
             primaryStage.scene = scene
             primaryStage.sizeToScene()

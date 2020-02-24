@@ -15,5 +15,10 @@ fun main (args: Array<String>) {
         println(board)
     }
     Application.launch(GUI::class.java, *args)
+
+    /// TODO: Add GUI interface to play by computer to the end of the game from current board until solution reached (dfsSolve)
+    /// TODO: Add undo move
+    /// TODO: Add redo move
+    /// TODO: Add GUI indicator if solution can still be reached or not (dfsSolve)
 }
 
