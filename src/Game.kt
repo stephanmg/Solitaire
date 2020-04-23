@@ -29,7 +29,7 @@ class Game {
      * @param peg start peg
      */
     fun play(peg: Peg) {
-        var lost = false;
+        val lost = false
         while (!lost) {
             /// TODO: Implement. Ask for user input, then jump accordingly
         }
@@ -40,7 +40,7 @@ class Game {
      * @param peg
      * @param direction
      */
-    fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
+    private fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
         val pegs = currentBoard.pegs
         val i = peg.i
         val j = peg.j
@@ -89,9 +89,9 @@ class Game {
      */
     private fun doJump(peg: Peg, direction: Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
-             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0;
-                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0;
-                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1; }
+             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0
+                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0
+                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1 }
 
         when (direction) {
             Direction.EAST -> move(peg, 1, 0)
@@ -99,7 +99,7 @@ class Game {
             Direction.SOUTH -> move(peg, 0, -1)
             Direction.WEST -> move(peg, -1, 0)
         }
-        return currentBoard;
+        return currentBoard
     }
 
     /**
@@ -108,11 +108,11 @@ class Game {
      * @param peg
      * @param direction
      */
-    fun jump(peg: Peg, direction: Direction, board: Board): Board? {
+    private fun jump(peg: Peg, direction: Direction, board: Board): Board? {
         if (canJump(peg, direction, board)) {
             return doJump(peg, direction, board)
         }
-        return null;
+        return null
     }
 
     /**
@@ -138,10 +138,10 @@ class Game {
         // initial board
         queue.add(Node(currentBoard.copy()))
 
-        var numSolutionsSoFar:Int = 0
+        var numSolutionsSoFar = 0
         println("Starting DFS search...")
         while (!queue.isEmpty()) {
-            var n = queue.poll()
+            val n = queue.poll()
             println("Current node: $n")
             if (n.board!!.numPegs() == 5) {
                 numSolutionsSoFar++
@@ -150,7 +150,7 @@ class Game {
                 for (peg in n.board!!.pegs.values) {
                     enumValues<Direction>().forEach {
                         if (canJump(peg, it, n.board!!)) {
-                            var b: Board = n.board!!.copy()
+                            val b: Board = n.board!!.copy()
                             queue.add(Node(jump(peg, it, b)))
                         }
                     }
@@ -159,7 +159,7 @@ class Game {
         }
         // Check if we found any solution at all
         if (numSolutionsSoFar == 0) {
-            println("Queue empty and no solution found so far! No solution exists?");
+            println("Queue empty and no solution found so far! No solution exists?")
         } else {
             println("We found #$numSolutionsSoFar ways (Sequence of boards/jumps) to solve the problem")
         }
@@ -221,9 +221,9 @@ object GameUtils {
      */
     private fun doJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
-            { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0;
-                currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0;
-                currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1; }
+            { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0
+                currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0
+                currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1 }
 
         when (direction) {
             Game.Direction.EAST -> move(peg, -1, 0)

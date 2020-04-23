@@ -23,7 +23,7 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
     fun numPegs(): Int {
         var numPegsInBoard = 0
         for (peg in pegs) if (peg.value.value == 1) numPegsInBoard++
-        return numPegsInBoard;
+        return numPegsInBoard
     }
 
     /**

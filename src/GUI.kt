@@ -5,8 +5,8 @@ import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
@@ -17,17 +17,18 @@ import javafx.stage.Stage
  * @url https://javalin.io/
  */
 class GUI : Application() {
+    private var canStillWin = true
     /**
      * @brief stage
      */
     override fun start(primaryStage: Stage) {
         val btn = Button()
         btn.text = "Say 'Hello World'"
-        btn.onAction = EventHandler<ActionEvent> { println("Hello World!") }
+        btn.onAction = EventHandler { println("Hello World!") }
 
-        val root = StackPane()
+        val root = BorderPane()
 
-        val scene = Scene(root, 250.0, 250.0)
+        val scene = Scene(root, 250.0, 260.0)
 
 
         val n = 5
@@ -36,19 +37,14 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        var currentBoard: Board = BoardFactory().square(5)
+        val currentBoard: Board = BoardFactory().square(5)
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
         val callback = fun(btn: Button, i: Int, j: Int) {
             /// TODO: Better use a MVC or MVVC framework
             println(btn.text)
-            var value: Int
-            if (btn.text == "*") {
-                value = 1
-            } else {
-                value = 0
-            }
+
             /*
             enumValues<Game.Direction>().forEach {
                 if (GameUtils.canJump(Peg(-1, value, i, j), it, currentBoard)) {
@@ -78,14 +74,14 @@ class GUI : Application() {
                     println("jump not possible")
                     return
                 }
-                if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir!!, currentBoard)) {
+                if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
                     println("Peg could jump in desired direction")
                     // do the jump
-                    GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir!!, currentBoard)
+                    GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)
                     for (peg in currentBoard.pegs) {
-                        var button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
+                        val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
                         if (button is Button) {
-                            var b: Button = button as Button
+                            val b: Button = button
                             b.text = if (peg.value.value == 1)  "*" else " "
                         }
 
@@ -102,7 +98,7 @@ class GUI : Application() {
             fun checkGameOver(): Boolean {
                 for (peg in currentBoard.pegs.values) {
                     enumValues<Game.Direction>().forEach {
-                        if(GameUtils.canJump(peg, it, currentBoard!!)) {
+                        if(GameUtils.canJump(peg, it, currentBoard)) {
                             return false
                         }
                     }
@@ -123,7 +119,7 @@ class GUI : Application() {
                 // won
                 if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
-                if (checkGameOver()) { label.text = "Game over!"; label.textFill = Color.web("#ff0000") }
+                if (checkGameOver()) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
@@ -132,35 +128,34 @@ class GUI : Application() {
 
         for (i in 0 until n) {
             for (j in 0 until n) {
-                val btn = Button()
+                val btnBoard = Button()
                 if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
-                    btn.text = " "
+                    btnBoard.text = " "
                 } else {
-                    btn.text = "*"
+                    btnBoard.text = "*"
                 }
 
-                btn.style = "-fx-font-weight: bold"
-                btn.setMaxSize(50.0, 50.0)
-                btn.setMinSize(50.0, 50.0)
+                btnBoard.style = "-fx-font-weight: bold"
+                btnBoard.setMaxSize(50.0, 50.0)
+                btnBoard.setMinSize(50.0, 50.0)
 
-                btn.onAction = EventHandler<ActionEvent> {
-                    println("Callback!");
-                    callback(btn, j, i)
+                btnBoard.onAction = EventHandler {
+                    println("Callback!")
+                    callback(btnBoard, j, i)
                 }
-                gridPane.add(btn, j, i, 1, 1)
+                gridPane.add(btnBoard, j, i, 1, 1)
             }
         }
 
-        root.children.add(gridPane);
+        root.center = gridPane
+        root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
+        // root.children.add(gridPane)
 
-
-        if (primaryStage != null) {
-            gridPane.requestFocus()
-            primaryStage.title = "Solitaire UI"
-            primaryStage.scene = scene
-            primaryStage.sizeToScene()
-            primaryStage.show()
-        }
+         gridPane.requestFocus()
+         primaryStage.title = "Solitaire UI"
+         primaryStage.scene = scene
+         primaryStage.sizeToScene()
+         primaryStage.show()
     }
     private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
         for (node in gridPane.children) {
