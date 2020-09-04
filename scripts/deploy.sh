@@ -1,3 +1,1 @@
-gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN jar
-gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN bundle
-gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN bintrayUpload
+./gradle-6.6.1/bin/gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN bintrayUpload
