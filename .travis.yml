@@ -3,6 +3,7 @@ install: skip
 
 os: linux
 dist: focal
+jdk: openjdk8
 
 script:
    - gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN jar
