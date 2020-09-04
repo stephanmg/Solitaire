@@ -2,12 +2,12 @@ language: java
 install: skip
 
 os: linux
-dist: trusty
-jdk: oraclejdk8
+dist: focal
+jdk: opendjk11
 
 script:
-   gradle jar
-   gradle bundle
+   - gradle jar
+   - gradle bundle
    
 deploy:
   provider: script
