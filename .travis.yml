@@ -1,6 +1,8 @@
 language: java
 before_install:
   - sudo apt-get -y install openjfx
+install:
+  - skip
 
 os: linux
 dist: xenial
