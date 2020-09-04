@@ -1,37 +1,42 @@
-
-
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.1.1'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
     id 'java'
+    id "com.jfrog.bintray" version "1.8.5"
+}
+
+sourceCompatibility = 1.8
+
+sourceSets {
+    main.java.srcDirs += 'src/'
 }
 
 repositories {
        mavenCentral()
 }
 
-sourceCompatibility = 1.8
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.8.1'
-}
-
-
+/// Simple JAR
 jar {
     manifest {
         attributes 'Main-Class': 'Solitaire'
-
     }
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/'
-}
+/// Fat JAR
+task bundle(type: Jar) {
+    archiveClassifier = 'bundled'
 
+    from sourceSets.main.output
 
+    dependsOn configurations.runtimeClasspath
 
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 
-dependencies {
+    manifest {
+        attributes 'Main-Class': 'Solitaire'
+   }
 }
 
 compileKotlin {
@@ -39,4 +44,33 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+/// deployment
+bintray {
+    user = property('user')
+    key = property('key')
+    publish = true 
+    override = true
+    pkg {
+        repo = 'Solitaire'
+        name = 'Solitaire'
+        userOrg = 'stephanmg'
+        licenses = ['GPL-3.0']
+        vcsUrl = 'https://github.com/stephanmg/Solitaire'
+        name = '0.0.1-nightly'
+        desc = '0.0.1-nightly'
+        version {
+            name='0.0.1-nightly'
+            vcsTag='0.0.1-nightly'
+        }
+    }
+
+   filesSpec {
+       from 'build/libs/Solitaire.jar'
+       into 'standalone_files/level1'
+
+       from 'build/libs/Solitaire-bundled.jar'
+       into 'standalone_files/level1'
+    }
 }
