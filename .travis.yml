@@ -5,8 +5,8 @@ os: linux
 dist: focal
 
 script:
-   - gradle jar
-   - gradle bundle
+   - gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN jar
+   - gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN bundle
    
 deploy:
   provider: script
