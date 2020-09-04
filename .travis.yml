@@ -3,8 +3,8 @@ before_install:
   - sudo apt-get -y install openjfx
 
 os: linux
-dist: focal
-jdk: openjdk9
+dist: xenial
+jdk: openjdk8
 
 script:
    - gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN jar
