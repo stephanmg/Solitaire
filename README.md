@@ -11,3 +11,4 @@ t
 - Add CI builds
 - Generate documentation (Add KDoc)
 - Add Javalin support
+- Use TornadoFX

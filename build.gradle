@@ -50,20 +50,28 @@ compileTestKotlin {
 bintray {
     user = property('user')
     key = property('key')
+    sha = property('sha')
     publish = true 
     override = true
     pkg {
         repo = 'Solitaire'
         name = 'Solitaire'
+        desc = 'Fun implementation of Peg solitaire in Kotlin/JS with React UI'
         userOrg = 'stephanmg'
         licenses = ['GPL-3.0']
+        websiteUrl = 'https://github.com/stephanmg/Solitaire'
+        issueTrackerUrl = 'https://github.com/stephanmg/Solitaire/issues'
+        labels = ['react', 'javafx', 'tornadofx']
         vcsUrl = 'https://github.com/stephanmg/Solitaire'
         name = '0.0.1-nightly'
-        desc = '0.0.1-nightly'
         version {
             name='0.0.1-nightly'
-            vcsTag='0.0.1-nightly'
+            desc='Nightly build'
+            released=new Date()
+            vcsTag=sha
         }
+        githubRepo = 'stephanmg/Solitaire'
+        githubReleaseNotesFile = 'README.md'
     }
 
    filesSpec {
