@@ -1,6 +1,6 @@
 language: java
-install:
-  - sudo apt-get install openjfx
+before_install:
+  - sudo apt-get -y install openjfx
 
 os: linux
 dist: focal
