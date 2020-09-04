@@ -1,0 +1,14 @@
+language: java
+install: skip
+
+os: linux
+dist: trusty
+jdk: oraclejdk8
+
+script:
+   ./gradlew jar
+   ./gradlew bundle
+   
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
