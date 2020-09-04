@@ -6,8 +6,8 @@ dist: trusty
 jdk: oraclejdk8
 
 script:
-   ./gradlew jar
-   ./gradlew bundle
+   gradle jar
+   gradle bundle
    
 deploy:
   provider: script
