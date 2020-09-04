@@ -48,9 +48,8 @@ compileTestKotlin {
 
 /// deployment
 bintray {
-    user = property('user')
-    key = property('key')
-    sha = property('sha')
+    user = findProperty('user')
+    key = findProperty('key')
     publish = true 
     override = true
     pkg {
@@ -68,7 +67,7 @@ bintray {
             name='0.0.1-nightly'
             desc='Nightly build'
             released=new Date()
-            vcsTag=sha
+            vcsTag=findProperty('sha')
         }
         githubRepo = 'stephanmg/Solitaire'
         githubReleaseNotesFile = 'README.md'
