@@ -3,7 +3,6 @@ install: skip
 
 os: linux
 dist: focal
-jdk: opendjk11
 
 script:
    - gradle jar
