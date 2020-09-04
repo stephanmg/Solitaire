@@ -166,6 +166,9 @@ class Game {
     }
 }
 
+/**
+ * @brief a collection of useful game utilities
+ */
 object GameUtils {
     @JvmStatic
     fun canJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Boolean {

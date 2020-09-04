@@ -7,6 +7,9 @@ import javafx.application.Application
  */
 class Solitaire {
     companion object {
+        /**
+          * @brief main
+          */
         @JvmStatic
         fun main(args: Array<String>) {
             if (args.size != 1) {
