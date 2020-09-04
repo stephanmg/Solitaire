@@ -4,7 +4,7 @@ install:
 
 os: linux
 dist: focal
-jdk: openjdk8
+jdk: openjdk9
 
 script:
    - gradle -Puser=stephanmg -Pkey=$BINTRAY_API_TOKEN jar
