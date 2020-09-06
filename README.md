@@ -7,10 +7,10 @@ Using Kotlin/JS with React to implement peg solitaire as a fun project.
 [![Download](https://api.bintray.com/packages/stephanmg/Solitaire/0.0.1-nightly/images/download.svg) ](https://bintray.com/stephanmg/Solitaire/0.0.1-nightly/_latestVersion)
 
 ## TODOs
-- Address other TODOs in code
-- Add unit tests (Kotlin Tests)
-- Add CI builds
-- Generate documentation (Add KDoc)
-- Add Javalin support
-- Use TornadoFX
+Not necessarily ordered by priority
+- Add Javalin support for GUI 
+- Use TornadoFX instead of plain JavaFX
+- Add KDoc
 - Add AppVeyor
+- Code TODOs
+- Add unit tests (Kotlin Tests)
