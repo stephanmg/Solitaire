@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3ed0009d-7c43-4586-8f9d-764d45bd4c1a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Solitaire.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Solitaire.kt" afterDir="false" />
-    </list>
+    <list default="true" id="3ed0009d-7c43-4586-8f9d-764d45bd4c1a" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -253,7 +249,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="852" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4882353" visible="true" weight="0.28540772" />
       <window_info id="Structure" order="1" sideWeight="0.5117647" side_tool="true" visible="true" weight="0.28540772" />

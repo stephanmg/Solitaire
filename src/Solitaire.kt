@@ -1,6 +1,5 @@
 import javafx.application.Application
 
-
 /**
  * @brief main
  * Launches the GUI (JavaFX for now)

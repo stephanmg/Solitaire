@@ -35,11 +35,6 @@ class Game {
         }
     }
 
-    /**
-     * Check if a peg can jump in one of the classical directions
-     * @param peg
-     * @param direction
-     */
     private fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
         val pegs = currentBoard.pegs
         val i = peg.i
@@ -81,12 +76,6 @@ class Game {
         }
     }
 
-    /**
-     * @brief doJump
-     * Actual do the jump in the board
-     * @param peg
-     * @param direction
-     */
     private fun doJump(peg: Peg, direction: Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
              { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0
@@ -216,12 +205,7 @@ object GameUtils {
             Game.Direction.WEST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
         }
     }
-    /**
-     * @brief doJump
-     * Actual do the jump in the board
-     * @param peg
-     * @param direction
-     */
+
     private fun doJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0

@@ -39,11 +39,6 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
  * Creates empty and square boards
  */
 class BoardFactory {
-    /**
-     * @brief creates an empty board
-     * @param size
-     * @return board
-     */
     private fun empty(size: Int=0): Board {
         return Board(mutableMapOf(), size)
     }
