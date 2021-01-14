@@ -20,11 +20,14 @@ import javafx.scene.image.ImageView;
  * TODO will be refactored to use Javalin API
  * @url https://javalin.io/
  */
+
 class GUI : Application() {
     private var canStillWin = true
+    private val pegImage = "file:peg.png"
     /**
      * @brief stage
      */
+    private fun createPegImage() = ImageView(Image(pegImage))
     override fun start(primaryStage: Stage) {
         val btn = Button()
         btn.text = "Say 'Hello World'"
@@ -85,30 +88,20 @@ class GUI : Application() {
                         val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
                         if (button is Button) {
                             val b: Button = button
-                            b.text = if (peg.value.value == 1) "*" else " "
-                            b.graphic = if (peg.value.value ==1) ImageView(Image("file:peg.png")) else null
+                            b.graphic = if (peg.value.value ==1) createPegImage() else null
                         }
 
                     }
                     /// TODO: Redraw board then! (the below lines will only change the two clicked buttons)
-                    curBtn!!.text = " "
-                    nextBtn!!.text = "*"
                     curBtn!!.graphic = null;
-                    var imgIcon = Image("file:peg.png")
-                    var imgView = ImageView(imgIcon)
-                    nextBtn!!.graphic = imgView;
-                   /* var imgIcon = Image("file:peg.png")
-                    var imgView = ImageView(imgIcon)
-                    nextBtn!!.graphic = imgView;
-                    curBtn!!.graphic = null;
-                    */
-                    
+                    nextBtn!!.graphic = createPegImage()
                 } else {
                     println("peg could not jump in desired direction!")
                 }
 
                 println("Callback!")
             }
+
             fun checkGameOver(): Boolean {
                 for (peg in currentBoard.pegs.values) {
                     enumValues<Game.Direction>().forEach {
@@ -140,18 +133,12 @@ class GUI : Application() {
 
         }
 
+        /// Draw initial board
         for (i in 0 until n) {
             for (j in 0 until n) {
-                var imgIcon = Image("file:peg.png")
-                var imgView = ImageView(imgIcon)
-
                 var btnBoard = Button()
-               // var btnBoard = Button("", imgView)
-                if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
-                    btnBoard.text = " "
-                } else {
-                    btnBoard.text = "*"
-                    btnBoard.graphic = imgView;
+                if (!(i == ((n-1) / 2)  && j == ((n-1) / 2))) {
+                    btnBoard.graphic = createPegImage()
                 }
 
                 btnBoard.setMaxSize(50.0, 50.0)
@@ -169,27 +156,13 @@ class GUI : Application() {
 
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
-        // root.children.add(gridPane)
-
          gridPane.requestFocus()
          primaryStage.title = "Solitaire UI"
          primaryStage.scene = scene
          primaryStage.sizeToScene()
          primaryStage.show()
-/*
-         var imgIcon = Image("file:test-scaled.png")
-         var imgView = ImageView(imgIcon)
-
-         var stack = StackPane()
-         var btn2 = Button("", imgView)
-         stack.getChildren().add(btn2)
-         stack.requestFocus()
-         var scene2 = Scene(stack, 50.0,50.0);
-         primaryStage.scene = scene2;
-         primaryStage.show()
-         */
-
     }
+
     private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
         for (node in gridPane.children) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -198,5 +171,4 @@ class GUI : Application() {
         }
         return null
     }
-
 }
