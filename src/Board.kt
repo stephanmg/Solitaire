@@ -63,5 +63,34 @@ class BoardFactory {
         }
         return board
     }
-}
 
+    private fun star(n: Int, m:Int) {
+        throw NotImplementedError("Star boards not yet implemented!")
+    }
+
+    private fun user(size: Int) {
+        throw NotImplementedError("User-defined boards not yet implemented!")
+    }
+    
+    private fun rectangular(n: Int, m: Int) {
+        throw NotImplementedError("Rectangular boards not yet implemented!")
+    }
+
+    /**
+     * @brief creates a board with a given type
+     * @param i max size in x 
+     * @param j max size in y
+     * @param size total number of pegs
+     * @param type board's layout: square, empty, star or user-defined
+     */
+    fun board(i: Int, j: Int, size: Int, type: BoardType): Board {
+        when (type) {
+            BoardType.SQUARE -> { square(i) }
+            BoardType.STAR -> { star(i, j) }
+            BoardType.RECTANGULAR -> { rectangular(i, j) }
+            BoardType.EMPTY -> { empty() }
+            BoardType.USER -> { user(size) }
+        }
+        return empty()
+    }
+}

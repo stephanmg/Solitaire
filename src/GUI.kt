@@ -24,10 +24,10 @@ import javafx.scene.image.ImageView;
 class GUI : Application() {
     private var canStillWin = true
     private val pegImage = "file:peg.png"
+    private fun createPegImage() = ImageView(Image(pegImage))
     /**
      * @brief stage
      */
-    private fun createPegImage() = ImageView(Image(pegImage))
     override fun start(primaryStage: Stage) {
         val btn = Button()
         btn.text = "Say 'Hello World'"
@@ -43,7 +43,7 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        val currentBoard: Board = BoardFactory().square(5)
+        val currentBoard: Board = BoardFactory().square(5) // Encapsulate this into a class: BoardManager, set's start (empty pegs) and board size, then draws the initial board
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
@@ -88,7 +88,7 @@ class GUI : Application() {
                         val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
                         if (button is Button) {
                             val b: Button = button
-                            b.graphic = if (peg.value.value ==1) createPegImage() else null
+                            b.graphic = if (peg.value.available()) createPegImage() else null
                         }
 
                     }
@@ -130,7 +130,6 @@ class GUI : Application() {
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
-
         }
 
         /// Draw initial board
@@ -150,17 +149,16 @@ class GUI : Application() {
                 }
 
                 gridPane.add(btnBoard, j, i, 1, 1)
-
             }
         }
 
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
-         gridPane.requestFocus()
-         primaryStage.title = "Solitaire UI"
-         primaryStage.scene = scene
-         primaryStage.sizeToScene()
-         primaryStage.show()
+        gridPane.requestFocus()
+        primaryStage.title = "Solitaire UI"
+        primaryStage.scene = scene
+        primaryStage.sizeToScene()
+        primaryStage.show()
     }
 
     private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
