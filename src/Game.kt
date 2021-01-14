@@ -121,6 +121,7 @@ class Game {
      * Finds some solution or all solutions if solution is feasible
      * @param currentBoard
      * Will be used during interactive game play
+     * TODO: How do we now if a solution was reached?
      */
     fun solveDfs(currentBoard: Board): Boolean {
         val queue: LinkedList<Node> = LinkedList()
