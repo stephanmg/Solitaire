@@ -250,6 +250,21 @@ object GameUtils {
             else -> null
         }
     }
+    /**
+     * @brief check if game is over or not
+     * @param currentBoard game state
+     */
+    @JvmStatic
+    fun checkGameOver(currentBoard: Board): Boolean {
+        for (peg in currentBoard.pegs.values) {
+            enumValues<Game.Direction>().forEach {
+                if(GameUtils.canJump(peg, it, currentBoard)) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 }
 
 /**

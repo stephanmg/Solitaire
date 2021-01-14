@@ -11,53 +11,42 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
-import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * @brief test GUI
- * TODO will be refactored to use Javalin API
- * @url https://javalin.io/
+ * @brief GUI
+ * TODO: Add Javalin webinterface
+ * TODO: Use TornadoFX instead of JavaFX
+ * TODO: Adapt Solitaire to 3D
  */
-
 class GUI : Application() {
     private var canStillWin = true
     private val pegImage = "file:peg.png"
     private fun createPegImage() = ImageView(Image(pegImage))
+    private val n = 5
+    private val sizeX = 250.0
+    private val sizeY = 260.0
+
     /**
-     * @brief stage
+     * @brief start the stage
+     * @param primaryStage
      */
     override fun start(primaryStage: Stage) {
-        val btn = Button()
-        btn.text = "Say 'Hello World'"
-        btn.onAction = EventHandler { println("Hello World!") }
-
         val root = BorderPane()
-
-        val scene = Scene(root, 250.0, 260.0)
-
-        val n = 5
+        val scene = Scene(root, sizeX, sizeY)
         val gridPane = GridPane()
-
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        val currentBoard: Board = BoardFactory().square(5) // Encapsulate this into a class: BoardManager, set's start (empty pegs) and board size, then draws the initial board
+        val currentBoard: Board = BoardFactory().square(n) 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
+        /**
+         * @brief callback to check and move pegs
+         */
         val callback = fun(btn: Button, i: Int, j: Int) {
-            /// TODO: Better use a MVC or MVVC framework
-            println(btn.text)
-
-            /*
-            enumValues<Game.Direction>().forEach {
-                if (GameUtils.canJump(Peg(-1, value, i, j), it, currentBoard)) {
-                        println("Can Jump!")
-                }
-            }*/
-
             if (count == 0) {
                 curBtn = btn
                 nextBtn = null
@@ -69,20 +58,15 @@ class GUI : Application() {
             if (count == 2) {
                 val jumpToX = fromPosX - i
                 val jumpToY: Int = fromPosY - j
-
                 nextBtn = btn
                 count = 0
-
                 val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
-                println(dir)
-                println("fromPos: $fromPosX, $fromPosY")
                 if (dir == null) {
-                    println("jump not possible")
                     return
                 }
+                // check if peg can legally jump... 
                 if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
-                    println("Peg could jump in desired direction")
-                    // do the jump
+                    // then do the jump
                     GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)
                     for (peg in currentBoard.pegs) {
                         val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
@@ -92,30 +76,13 @@ class GUI : Application() {
                         }
 
                     }
-                    /// TODO: Redraw board then! (the below lines will only change the two clicked buttons)
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
-                } else {
-                    println("peg could not jump in desired direction!")
                 }
-
-                println("Callback!")
-            }
-
-            fun checkGameOver(): Boolean {
-                for (peg in currentBoard.pegs.values) {
-                    enumValues<Game.Direction>().forEach {
-                        if(GameUtils.canJump(peg, it, currentBoard)) {
-                            return false
-                        }
-                    }
-                }
-                return true
             }
 
             val won: Boolean = currentBoard.numPegs() == 5
-            val lost: Boolean = checkGameOver()
-
+            val lost: Boolean = GameUtils.checkGameOver(currentBoard)
             if (won || lost) {
                 // set background
                 val label = Label()
@@ -126,7 +93,7 @@ class GUI : Application() {
                 // won
                 if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
-                if (checkGameOver()) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
+                if (GameUtils.checkGameOver(currentBoard)) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
@@ -142,9 +109,7 @@ class GUI : Application() {
 
                 btnBoard.setMaxSize(50.0, 50.0)
                 btnBoard.setMinSize(50.0, 50.0)
-
                 btnBoard.onAction = EventHandler {
-                    println("Callback!")
                     callback(btnBoard, j, i)
                 }
 
@@ -161,6 +126,12 @@ class GUI : Application() {
         primaryStage.show()
     }
 
+    /**
+     * @brief helper method to get a node from the grid pane
+     * @param gridPane
+     * @param col
+     * @param row
+     */
     private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
         for (node in gridPane.children) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {

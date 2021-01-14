@@ -27,6 +27,7 @@ class Solitaire {
             /// TODO: Add undo move
             /// TODO: Add redo move
             /// TODO: Add GUI indicator if solution can still be reached or not (dfsSolve)
+            /// TODO: GameManager: 1) Save game 2) Load game 3) Create Boards
         }
     }
 }
