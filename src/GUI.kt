@@ -56,6 +56,8 @@ class GUI : Application() {
             count++
 
             if (count == 2) {
+                //canStillWin = Game().solveDfs(currentBoard)
+                println("Can still win?" + canStillWin)
                 val jumpToX = fromPosX - i
                 val jumpToY: Int = fromPosY - j
                 nextBtn = btn

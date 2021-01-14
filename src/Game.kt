@@ -122,7 +122,7 @@ class Game {
      * @param currentBoard
      * Will be used during interactive game play
      */
-    fun solveDfs(currentBoard: Board) {
+    fun solveDfs(currentBoard: Board): Boolean {
         val queue: LinkedList<Node> = LinkedList()
         // initial board
         queue.add(Node(currentBoard.copy()))
@@ -149,8 +149,10 @@ class Game {
         // Check if we found any solution at all
         if (numSolutionsSoFar == 0) {
             println("Queue empty and no solution found so far! No solution exists?")
+            return false
         } else {
             println("We found #$numSolutionsSoFar ways (Sequence of boards/jumps) to solve the problem")
+            return true
         }
     }
 }
