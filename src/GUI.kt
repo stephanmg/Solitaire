@@ -7,9 +7,13 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
+import javafx.scene.shape.Circle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @brief test GUI
@@ -29,7 +33,6 @@ class GUI : Application() {
         val root = BorderPane()
 
         val scene = Scene(root, 250.0, 260.0)
-
 
         val n = 5
         val gridPane = GridPane()
@@ -82,13 +85,24 @@ class GUI : Application() {
                         val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
                         if (button is Button) {
                             val b: Button = button
-                            b.text = if (peg.value.value == 1)  "*" else " "
+                            b.text = if (peg.value.value == 1) "*" else " "
+                            b.graphic = if (peg.value.value ==1) ImageView(Image("file:peg.png")) else null
                         }
 
                     }
                     /// TODO: Redraw board then! (the below lines will only change the two clicked buttons)
                     curBtn!!.text = " "
                     nextBtn!!.text = "*"
+                    curBtn!!.graphic = null;
+                    var imgIcon = Image("file:peg.png")
+                    var imgView = ImageView(imgIcon)
+                    nextBtn!!.graphic = imgView;
+                   /* var imgIcon = Image("file:peg.png")
+                    var imgView = ImageView(imgIcon)
+                    nextBtn!!.graphic = imgView;
+                    curBtn!!.graphic = null;
+                    */
+                    
                 } else {
                     println("peg could not jump in desired direction!")
                 }
@@ -128,14 +142,18 @@ class GUI : Application() {
 
         for (i in 0 until n) {
             for (j in 0 until n) {
-                val btnBoard = Button()
+                var imgIcon = Image("file:peg.png")
+                var imgView = ImageView(imgIcon)
+
+                var btnBoard = Button()
+               // var btnBoard = Button("", imgView)
                 if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
                     btnBoard.text = " "
                 } else {
                     btnBoard.text = "*"
+                    btnBoard.graphic = imgView;
                 }
 
-                btnBoard.style = "-fx-font-weight: bold"
                 btnBoard.setMaxSize(50.0, 50.0)
                 btnBoard.setMinSize(50.0, 50.0)
 
@@ -143,7 +161,9 @@ class GUI : Application() {
                     println("Callback!")
                     callback(btnBoard, j, i)
                 }
+
                 gridPane.add(btnBoard, j, i, 1, 1)
+
             }
         }
 
@@ -156,6 +176,19 @@ class GUI : Application() {
          primaryStage.scene = scene
          primaryStage.sizeToScene()
          primaryStage.show()
+/*
+         var imgIcon = Image("file:test-scaled.png")
+         var imgView = ImageView(imgIcon)
+
+         var stack = StackPane()
+         var btn2 = Button("", imgView)
+         stack.getChildren().add(btn2)
+         stack.requestFocus()
+         var scene2 = Scene(stack, 50.0,50.0);
+         primaryStage.scene = scene2;
+         primaryStage.show()
+         */
+
     }
     private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
         for (node in gridPane.children) {
