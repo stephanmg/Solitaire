@@ -27,6 +27,7 @@ class GUI : Application() {
     private val n = 5
     private val sizeX = 250.0
     private val sizeY = 260.0
+    private var initialDraw = true
 
     /**
      * @brief start the stage
@@ -39,7 +40,8 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        val currentBoard: Board = BoardFactory().square(n) 
+        //val currentBoard: Board = BoardFactory().square(n) 
+        val currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
@@ -52,10 +54,10 @@ class GUI : Application() {
                 nextBtn = null
                 fromPosX = i
                 fromPosY = j
-            n}
+            }
             count++
 
-            if (count == 2) {
+            if ((count % 2) == 0) {
                 //canStillWin = Game().solveDfs(currentBoard)
                 println("Can still win?" + canStillWin)
                 val jumpToX = fromPosX - i
@@ -76,11 +78,10 @@ class GUI : Application() {
                             val b: Button = button
                             b.graphic = if (peg.value.available()) createPegImage() else null
                         }
-
                     }
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
-                }
+                } 
             }
 
             val won: Boolean = currentBoard.numPegs() == 5
@@ -101,7 +102,7 @@ class GUI : Application() {
             }
         }
 
-        /// Draw initial board: TODO draw board on currentBoard's peg values -1, 0, or 1 (refactor this to use board and pegs dimensions of hash map with x,y coordinates which directly correspond to the visual board in x,y coordinates (gridPane))
+        /* 
         for (i in 0 until n) {
             for (j in 0 until n) {
                 var btnBoard = Button()
@@ -118,6 +119,10 @@ class GUI : Application() {
                 gridPane.add(btnBoard, j, i, 1, 1)
             }
         }
+        */
+
+        drawBoard(gridPane, currentBoard, callback, initialDraw)
+        initialDraw = false
 
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
@@ -125,7 +130,7 @@ class GUI : Application() {
         gridPane.setMaxSize(sizeX, sizeY)
         gridPane.setMinSize(sizeX, sizeY)
         gridPane.setPrefSize(sizeX, sizeY)
-        primaryStage.title = "Solitaire UI"
+        primaryStage.title = "Stephan's Solitaire UI"
         primaryStage.scene = scene
         primaryStage.sizeToScene()
         primaryStage.show()
@@ -144,5 +149,38 @@ class GUI : Application() {
             }
         }
         return null
+    }
+    
+    /**
+     * @brief draw a board
+     * @param gridPane
+     * @param callback - button callback to remove and add pegs to the gridPane
+     */
+    private fun drawBoard(gridPane: GridPane, board: Board, callback: (btn: Button, i: Int, j: Int) -> Unit, initialDraw: Boolean) {
+        val draw = fun(i: Int, j: Int, value: Int) {
+            var btn = Button()
+            if (value == 1) 
+                btn.graphic = createPegImage()
+
+            btn.setMaxSize(50.0, 50.0)
+            btn.setMinSize(50.0, 50.0)
+            btn.onAction = EventHandler {
+                callback(btn, j, i)
+            }
+
+            if (initialDraw) {
+                btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: beige;"
+
+               if (value == -1) 
+                   btn.style = "-fx-background-color: beige;"
+
+            }
+
+            gridPane.add(btn, j, i, 1, 1)
+        }
+
+        board.pegs.forEach { 
+            coordinates, peg -> draw(coordinates.first, coordinates.second, peg.value)
+        }
     }
 }

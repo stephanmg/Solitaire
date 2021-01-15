@@ -186,11 +186,13 @@ object GameUtils {
                     return false
                 }
 
-                /// Note: The boundary is everything outside the board 
+                /* 
+                /// Note: The boundary is everything outside the board TODO: is this correct
                 if (pegs[Pair(i, j)]!!.value == -1) {
                     println("Peg (from position) on boundary!")
                     return false;
                 }
+                */
 
                 if ((pegs[Pair(i, j)]!!.value == 1) &&
                     (pegs[Pair(i + x, j + y)]!!.value == 1) &&

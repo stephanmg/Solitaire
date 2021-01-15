@@ -19,5 +19,5 @@ data class Peg(
     val j: Int=-1
 ) {
     override fun toString() = "Peg with index $id has value $value at position ($i, $j)\n"
-    fun available() = value != 0
+    fun available() = value == 1
 }

@@ -109,8 +109,25 @@ class BoardFactory {
     /**
      * @brief classic 33 board
      */
-    private fun classic() {
-        throw NotImplementedError("Classic board is not yet implemented!")
+    public fun classic(): Board {
+        val board = empty()
+        for (i in 0 until 9) {
+            for (j in 0 until 9) {
+                if (i < 3 && j < 3) /* upper left border */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                else if (i < 3 && j > 5) /* lower left border */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                else if (i > 5 && j < 3) /* upper right border */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                else if (i > 5 && j > 5) /* lower right border */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                else if (i == ((9-1) / 2)  && j == ((9-1) / 2))  /* center hole empty */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, 0, i, j)
+                else /* peg in hole */
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, 1, i, j)
+            }
+        }
+        return board
     }
 
     /**
