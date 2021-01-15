@@ -179,6 +179,8 @@ object GameUtils {
                 println("peg null!")
                 return false
             } else {
+                println(i+2*x)
+                println(i+2*y)
                 if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
                     /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
                     /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower

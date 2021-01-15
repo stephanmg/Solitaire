@@ -40,8 +40,8 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        //val currentBoard: Board = BoardFactory().square(n) 
-        val currentBoard: Board = BoardFactory().classic() 
+        val currentBoard: Board = BoardFactory().square(n)  
+        //val currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
@@ -49,6 +49,7 @@ class GUI : Application() {
          * @brief callback to check and move pegs
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
+            println("Count: ${count}")
             if (count == 0) {
                 curBtn = btn
                 nextBtn = null
@@ -82,7 +83,7 @@ class GUI : Application() {
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
                 } 
-            }
+            } 
 
             val won: Boolean = currentBoard.numPegs() == 5
             val lost: Boolean = GameUtils.checkGameOver(currentBoard)
