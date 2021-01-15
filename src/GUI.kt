@@ -101,7 +101,7 @@ class GUI : Application() {
             }
         }
 
-        /// Draw initial board
+        /// Draw initial board: TODO draw board on currentBoard's peg values -1, 0, or 1 (refactor this to use board and pegs dimensions of hash map with x,y coordinates)
         for (i in 0 until n) {
             for (j in 0 until n) {
                 var btnBoard = Button()
