@@ -2,7 +2,7 @@
  * BoardTypes
  */
 enum class BoardType {
-    SQUARE, EMPTY, STAR, USER, RECTANGULAR
+    SQUARE, EMPTY, STAR, USER, RECTANGULAR, CLASSIC
 }
 
 /**

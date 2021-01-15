@@ -85,16 +85,32 @@ class BoardFactory {
         return board
     }
 
+    /**
+     * @brief star board
+     */
     private fun star(n: Int, m:Int) {
         throw NotImplementedError("Star boards not yet implemented!")
     }
 
+    /**
+     * @brief user-defined board from input file
+     */
     private fun user(size: Int) {
         throw NotImplementedError("User-defined boards not yet implemented!")
     }
     
+    /**
+     * @brief rectangular board
+     */
     private fun rectangular(n: Int, m: Int) {
         throw NotImplementedError("Rectangular boards not yet implemented!")
+    }
+
+    /**
+     * @brief classic 33 board
+     */
+    private fun classic() {
+        throw NotImplementedError("Classic board is not yet implemented!")
     }
 
     /**
@@ -111,6 +127,7 @@ class BoardFactory {
             BoardType.RECTANGULAR -> { rectangular(i, j) }
             BoardType.EMPTY -> { empty() }
             BoardType.USER -> { user(size) }
+            BoardType.CLASSIC -> { classic() }
         }
         return empty()
     }
