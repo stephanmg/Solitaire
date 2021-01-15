@@ -122,6 +122,9 @@ class GUI : Application() {
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         gridPane.requestFocus()
+        gridPane.setMaxSize(sizeX, sizeY)
+        gridPane.setMinSize(sizeX, sizeY)
+        gridPane.setPrefSize(sizeX, sizeY)
         primaryStage.title = "Solitaire UI"
         primaryStage.scene = scene
         primaryStage.sizeToScene()
