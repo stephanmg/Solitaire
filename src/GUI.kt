@@ -47,6 +47,7 @@ class GUI : Application() {
 
         /**
          * @brief callback to check and move pegs
+         * TODO: This callback contains a sutle bug somewhere still.. try to locate it
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             println("Count: ${count}")
@@ -82,7 +83,7 @@ class GUI : Application() {
                     }
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
-                } 
+                }
             } 
 
             val won: Boolean = currentBoard.numPegs() == 5
