@@ -175,15 +175,21 @@ object GameUtils {
          * @return true if can jump otherwise false
          */
         fun jumpable(x: Int, y:Int): Boolean {
-            if (pegs[Pair(i+2*x, j+2*y)] == null) {
+            if (pegs[Pair(i+2*x, j+2*y)] == null) { /// Outside of the defined board, e.g. 5x5 board, we might pick a peg we want to jump to which is beyond the board, not possible
                 println("peg null!")
                 return false
             } else {
                 if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
                     /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
                     /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
-                    println("Peg on boundary!")
+                    println("Peg (to position) on boundary!")
                     return false
+                }
+
+                /// Note: The boundary is everything outside the board 
+                if (pegs[Pair(i, j)]!!.value == -1) {
+                    println("Peg (from position) on boundary!")
+                    return false;
                 }
 
                 if ((pegs[Pair(i, j)]!!.value == 1) &&
