@@ -23,6 +23,7 @@ class Solitaire {
 
             Application.launch(GUI::class.java, *args)
 
+            /// TODO: Add different boards
             /// TODO: Add GUI interface to play by computer to the end of the game from current board until solution reached (dfsSolve)
             /// TODO: Add undo move
             /// TODO: Add redo move

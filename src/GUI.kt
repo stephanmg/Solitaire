@@ -52,7 +52,7 @@ class GUI : Application() {
                 nextBtn = null
                 fromPosX = i
                 fromPosY = j
-            }
+            n}
             count++
 
             if (count == 2) {
