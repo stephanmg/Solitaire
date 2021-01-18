@@ -25,8 +25,8 @@ class GUI : Application() {
     private val pegImage = "file:peg.png"
     private fun createPegImage() = ImageView(Image(pegImage))
     private val n = 5
-    private val sizeX = 250.0
-    private val sizeY = 260.0
+    private val sizeX = 250.0*2
+    private val sizeY = 260.0*2
     private var initialDraw = true
 
     /**
@@ -40,7 +40,7 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        //val currentBoard: Board = BoardFactory().square(n)  
+        // val currentBoard: Board = BoardFactory().square(n)  
         val currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
@@ -133,9 +133,10 @@ class GUI : Application() {
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         gridPane.requestFocus()
-        gridPane.setMaxSize(sizeX, sizeY)
+        /*gridPane.setMaxSize(sizeX, sizeY)
         gridPane.setMinSize(sizeX, sizeY)
         gridPane.setPrefSize(sizeX, sizeY)
+        */
         gridPane.style = "-fx-grid-lines-visible: true;"
         primaryStage.title = "Stephan's Solitaire UI"
         primaryStage.scene = scene
@@ -166,16 +167,19 @@ class GUI : Application() {
     private fun drawBoard(gridPane: GridPane, board: Board, callback: (btn: Button, i: Int, j: Int) -> Unit, initialDraw: Boolean) {
         val draw = fun(i: Int, j: Int, value: Int) {
             var btn = Button()
+            /// only non-empty holes get a peg
             if (value == 1) 
                 btn.graphic = createPegImage()
 
+            /// default sizes for buttons making look background image nice
             btn.setMaxSize(50.0, 50.0)
             btn.setMinSize(50.0, 50.0)
-            /// explicit boundary of the board does not have clickable button
+            /// only buttons within the board have a clickable button
             if (value != -1) {
                btn.onAction = EventHandler {
                     callback(btn, j, i)
                }
+            /// explicit boundary of the board does not have clickable button
             } else {
                 btn.onAction = EventHandler {
                    btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
@@ -183,8 +187,6 @@ class GUI : Application() {
             }
 
             if (initialDraw) {
-               // btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
-
                if (value == -1) 
                    btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
                else
