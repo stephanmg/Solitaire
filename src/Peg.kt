@@ -14,7 +14,7 @@ enum class PegType {
  */
 data class Peg(
     private val id: Int=-1,
-    var value: Int=0, /* TODO: replace Int with an enum: EMPTY,FULL,BOUNDARY */
+    var value: Int=0, /* TODO: replace Int with an enum: EMPTY, FULL, BOUNDARY */
     val i: Int=-1,
     val j: Int=-1
 ) {

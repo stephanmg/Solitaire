@@ -45,11 +45,14 @@ class GUI : Application() {
         var currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
-        val moveLabel = Label("Number of validMoves: 0")
+        val moveLabel = Label("Number of moves: 0")
         var validMoves = 0
 
         /**
          * @brief callback to check and move pegs
+         * @param btn
+         * @param i
+         * @param j
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -59,8 +62,9 @@ class GUI : Application() {
                 fromPosX = i
                 fromPosY = j
             }  else {
+                /// TODO: Re-add the label
                 // canStillWin = Game().solveDfs(currentBoard)
-                println("Can still win?" + canStillWin)
+                // println("Can still win?" + canStillWin)
                 val jumpToX = fromPosX - i
                 val jumpToY: Int = fromPosY - j
                 nextBtn = btn
@@ -85,6 +89,7 @@ class GUI : Application() {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     validMoves++
+                // otherwise new trial
                 } else {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -93,7 +98,7 @@ class GUI : Application() {
             } 
             count++
 
-            /// move label
+            /// set number of valid moves label
             moveLabel.minWidth = 80.0
             moveLabel.minHeight = 50.0
             moveLabel.text = "Number of moves: ${validMoves}"
@@ -129,6 +134,7 @@ class GUI : Application() {
 
         /**
          * @brief create board
+         * @param text
          */
         val createBoard = fun(text: String) {
             /// TODO: Refactor: use BoardFactory().board()
@@ -151,17 +157,13 @@ class GUI : Application() {
             }
         }
 
+        /// draw initial board and set layout
         drawBoard(gridPane, currentBoard, callback)
-
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         root.bottom = moveLabel
         gridPane.requestFocus()
         root.right = menuButton
-        /*gridPane.setMaxSize(sizeX, sizeY)
-        gridPane.setMinSize(sizeX, sizeY)
-        gridPane.setPrefSize(sizeX, sizeY)
-        */
         gridPane.style = "-fx-grid-lines-visible: true;"
         primaryStage.title = "Stephan's Solitaire UI"
         primaryStage.scene = scene

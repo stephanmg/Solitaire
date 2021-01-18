@@ -24,10 +24,9 @@ class Solitaire {
             Application.launch(GUI::class.java, *args)
 
             /// TODO: GameManager: 1) Save game 2) Load game 3) Create Boards
-            /// TODO: Add GUI indicator if solution can still be reached or not (dfsSolve)
-            /// TODO: Add GUI interface to play by computer to the end of the game from current board until solution reached (dfsSolve)
-            /// TODO: Add undo move
-            /// TODO: Add redo move
+            /// TODO: Add GUI label to indicate if solution can still be reached or not (check with level based dfsSolve)
+            /// TODO: Add GUI interface to let the computer play a game until the end (solve it)
+            /// TODO: Add undo and redo move for GameManager
         }
     }
 }

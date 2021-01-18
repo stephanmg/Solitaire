@@ -173,6 +173,7 @@ object GameUtils {
          * @param x
          * @param y
          * @return true if can jump otherwise false
+         * TODO: Make this check correct anyway, also if we disallow selecting boundary elements in the GUI
          */
         fun jumpable(x: Int, y:Int): Boolean {
             if (pegs[Pair(i+2*x, j+2*y)] == null) { /// Outside of the defined board, e.g. 5x5 board, we might pick a peg we want to jump to which is beyond the board, not possible
