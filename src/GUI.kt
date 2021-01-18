@@ -50,28 +50,26 @@ class GUI : Application() {
          * TODO: This callback contains a sutle bug somewhere still.. try to locate it
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
-            println("Count: ${count}")
-            if (count == 0) {
+            btn.style = "-fx-background-color: beige;"
+            if ((count % 2) == 0) {
                 curBtn = btn
                 nextBtn = null
                 fromPosX = i
                 fromPosY = j
-            }
-            count++
-
-            if ((count % 2) == 0) {
+                btn.style = "-fx-background-color: beige;"
+            }  else {
                 //canStillWin = Game().solveDfs(currentBoard)
                 println("Can still win?" + canStillWin)
                 val jumpToX = fromPosX - i
                 val jumpToY: Int = fromPosY - j
                 nextBtn = btn
-                count = 0
                 val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
                 if (dir == null) {
-                    return
-                }
+                    curBtn!!.style = "-fx-background-color: #f8f8ff"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                    curBtn = nextBtn
                 // check if peg can legally jump... 
-                if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
+                } else if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
                     // then do the jump
                     GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)
                     for (peg in currentBoard.pegs) {
@@ -83,8 +81,15 @@ class GUI : Application() {
                     }
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
+                    curBtn!!.style = "-fx-background-color: #f8f8ff"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                } else {
+                    curBtn!!.style = "-fx-background-color: #f8f8ff"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                    curBtn = nextBtn
                 }
             } 
+            count++
 
             val won: Boolean = currentBoard.numPegs() == 5
             val lost: Boolean = GameUtils.checkGameOver(currentBoard)
@@ -94,7 +99,7 @@ class GUI : Application() {
                 label.minWidth = 80.0
                 label.minHeight = 50.0
                 val popup = Popup()
-                label.style = " -fx-background-color: white;"
+                label.style = " -fx-background-color: #f8f8ff; "
                 // won
                 if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
@@ -102,6 +107,7 @@ class GUI : Application() {
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
+            root.bottom = Label("Count: ${count}")
         }
 
         /* 
@@ -128,6 +134,7 @@ class GUI : Application() {
 
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
+        root.bottom = Label("Count: ${count}.")
         gridPane.requestFocus()
         gridPane.setMaxSize(sizeX, sizeY)
         gridPane.setMinSize(sizeX, sizeY)
@@ -175,6 +182,8 @@ class GUI : Application() {
 
                if (value == -1) 
                    btn.style = "-fx-background-color: beige;"
+               else
+                   btn.style = "-fx-background-color: #f8f8ff;"
 
             }
 
