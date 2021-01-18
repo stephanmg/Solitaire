@@ -40,23 +40,22 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        val currentBoard: Board = BoardFactory().square(n)  
-        //val currentBoard: Board = BoardFactory().classic() 
+        //val currentBoard: Board = BoardFactory().square(n)  
+        val currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
 
         /**
          * @brief callback to check and move pegs
-         * TODO: This callback contains a sutle bug somewhere still.. try to locate it
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
-            btn.style = "-fx-background-color: beige;"
+            btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
             if ((count % 2) == 0) {
                 curBtn = btn
                 nextBtn = null
                 fromPosX = i
                 fromPosY = j
-                btn.style = "-fx-background-color: beige;"
+                btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
             }  else {
                 //canStillWin = Game().solveDfs(currentBoard)
                 println("Can still win?" + canStillWin)
@@ -65,8 +64,8 @@ class GUI : Application() {
                 nextBtn = btn
                 val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
                 if (dir == null) {
-                    curBtn!!.style = "-fx-background-color: #f8f8ff"
-                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                    curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
                 // check if peg can legally jump... 
                 } else if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
@@ -81,11 +80,11 @@ class GUI : Application() {
                     }
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = createPegImage()
-                    curBtn!!.style = "-fx-background-color: #f8f8ff"
-                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                    curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                 } else {
-                    curBtn!!.style = "-fx-background-color: #f8f8ff"
-                    nextBtn!!.style = "-fx-background-color: #f8f8ff"
+                    curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+                    nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
                 }
             } 
@@ -107,7 +106,6 @@ class GUI : Application() {
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
-            root.bottom = Label("Count: ${count}")
         }
 
         /* 
@@ -134,11 +132,11 @@ class GUI : Application() {
 
         root.center = gridPane
         root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
-        root.bottom = Label("Count: ${count}.")
         gridPane.requestFocus()
         gridPane.setMaxSize(sizeX, sizeY)
         gridPane.setMinSize(sizeX, sizeY)
         gridPane.setPrefSize(sizeX, sizeY)
+        gridPane.style = "-fx-grid-lines-visible: true;"
         primaryStage.title = "Stephan's Solitaire UI"
         primaryStage.scene = scene
         primaryStage.sizeToScene()
@@ -173,17 +171,24 @@ class GUI : Application() {
 
             btn.setMaxSize(50.0, 50.0)
             btn.setMinSize(50.0, 50.0)
-            btn.onAction = EventHandler {
-                callback(btn, j, i)
+            /// explicit boundary of the board does not have clickable button
+            if (value != -1) {
+               btn.onAction = EventHandler {
+                    callback(btn, j, i)
+               }
+            } else {
+                btn.onAction = EventHandler {
+                   btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
+                }
             }
 
             if (initialDraw) {
-                btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: beige;"
+               // btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
 
                if (value == -1) 
-                   btn.style = "-fx-background-color: beige;"
+                   btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
                else
-                   btn.style = "-fx-background-color: #f8f8ff;"
+                   btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
 
             }
 
