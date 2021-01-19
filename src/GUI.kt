@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox
  */
 class GUI : Application() {
     private var canStillWin = true
-    private val pegImage = "file:peg.png"
+    private val pegImage = GUI::class.java.getResource("/peg.png").toString()
     private fun createPegImage() = ImageView(Image(pegImage))
     private val n = 5
     /// TODO: Improve alignment

@@ -35,6 +35,10 @@ task bundle(type: Jar) {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
 
+    from ('src/test/resources') {
+        include '*png'
+    }
+
     manifest {
         attributes 'Main-Class': 'Solitaire'
    }
