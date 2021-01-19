@@ -1,3 +1,7 @@
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+import java.io.File
+
 /**
  * BoardTypes
  */
@@ -7,6 +11,7 @@ enum class BoardType {
 
 /**
  * @brief manages games
+ * TODO: Use GameManagmentUtils in the GameManager
  */
 class GameManager(val i: Int, val j: Int, val size: Int, val type: BoardType) {
     private var board: Board? = null
@@ -35,19 +40,22 @@ class GameManager(val i: Int, val j: Int, val size: Int, val type: BoardType) {
     public fun restart(): Unit {
         throw NotImplementedError("Restart not yet implemented!")
     }
+}
 
-    /**
-     * @brief saves a game state
-     * Find the board in the list, and save it's state to the index
-     */
-    public fun save(): Unit {
-        throw NotImplementedError("Save not yet implemented!")
+object GameManagementUtils {
+    @JvmStatic
+    public fun save(currentBoard: Board) {
+      val format = Json { allowStructuredMapKeys = true }
+      val string = format.encodeToString(currentBoard)
+      val homedir = System.getProperty("user.home")
+      File("${homedir}/current_games.sst").printWriter().use { out -> out.println(string) }
     }
 
-    /**
-     * @brief loads a game state by index
-     */
-    public fun load(index: Int): Board? {
-        throw NotImplementedError("Load not yet implemented!")
+    @JvmStatic
+    public fun load(): Board? {
+      val format = Json { allowStructuredMapKeys = true }
+      val homedir = System.getProperty("user.home")
+      val board = format.decodeFromString<Board>(File("${homedir}/current_games.sst").readText())
+      return board
     }
 }

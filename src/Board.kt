@@ -28,7 +28,7 @@ import kotlinx.serialization.Serializable;
  * |---------------------------------------|
  */
 @Serializable
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves:Int =0) {
     /**
      * @brief toString()
      * @see Object.toString()
@@ -62,7 +62,7 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
  * Creates empty and square boards
  */
 class BoardFactory {
-    private fun empty(size: Int=0): Board {
+    public fun empty(size: Int=0): Board {
         return Board(mutableMapOf(), size)
     }
 

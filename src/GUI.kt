@@ -7,14 +7,17 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.control.MenuButton
+import javafx.scene.control.MenuBar
+import javafx.scene.control.Menu
+import javafx.scene.control.MenuItem
+import javafx.scene.layout.VBox
 
 /**
  * @brief GUI
@@ -56,12 +59,15 @@ class GUI : Application() {
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+            println("count: ${count}")
             if ((count % 2) == 0) {
+                println("fromPosX: ${fromPosX}")
+                println("fromPosY: ${fromPosY}")
                 curBtn = btn
                 nextBtn = null
                 fromPosX = i
                 fromPosY = j
-            }  else {
+            } else {
                 /// TODO: Re-add the label
                 // canStillWin = Game().solveDfs(currentBoard)
                 // println("Can still win?" + canStillWin)
@@ -70,6 +76,7 @@ class GUI : Application() {
                 nextBtn = btn
                 val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
                 if (dir == null) {
+                    println("Null!")
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
@@ -89,6 +96,7 @@ class GUI : Application() {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     validMoves++
+                    println("Do jump!")
                 // otherwise new trial
                 } else {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -96,6 +104,7 @@ class GUI : Application() {
                     curBtn = nextBtn
                 }
             } 
+            println("only this!")
             count++
 
             /// set number of valid moves label
@@ -147,10 +156,58 @@ class GUI : Application() {
             configureBoardView()
         }
 
+        val manageGame = fun(text: String) {
+
+            val reinit = fun() {
+                currentBoard.pegs.forEach { 
+                    var btn = getNodeFromGridPane(gridPane, it.value.i, it.value.j) as Button
+                    btn.graphic = if (it.value.available()) createPegImage() else null
+                    count = 0
+                }
+            }
+
+            when (text) {
+                "Save" -> {
+                    GameManagementUtils.save(currentBoard)
+                }
+                "Load" -> {
+                    currentBoard = GameManagementUtils.load() ?: BoardFactory().empty()
+                    reinit()
+                }
+                "Reset" -> {
+                    currentBoard = BoardFactory().classic()
+                    reinit()
+                }
+            }
+        }
+
+        val menuBar = MenuBar()
+        val menuGame = Menu("Game")
+        val menuBoards = Menu("Boards")
+        val menuHelp = Menu("Help")
+        val menuAbout = Menu("About")
+
+        menuGame.getItems().add(MenuItem("Save"))
+        menuGame.getItems().add(MenuItem("Load"))
+        menuGame.getItems().add(MenuItem("Reset"))
+
+        menuBoards.getItems().add(MenuItem("Classic"))
+        menuBoards.getItems().add(MenuItem("Square"))
+
+        menuBar.getMenus().add(menuGame)
+        menuBar.getMenus().add(menuBoards)
+        menuBar.getMenus().add(menuHelp)
+        menuBar.getMenus().add(menuAbout)
+
+        menuGame.getItems().forEach() {
+            val text = it.text
+            it.onAction = EventHandler() {
+                manageGame(text)
+            }
+        }
+
         // Create menu selection
-        val menuButton = MenuButton("Board selector")
-        menuButton.getItems().addAll(MenuItem("Classic"), MenuItem("Square"))
-        menuButton.getItems().forEach {
+        menuBoards.getItems().forEach {
             val text = it.text
             it.onAction = EventHandler() {
                 createBoard(text)
@@ -160,10 +217,10 @@ class GUI : Application() {
         /// draw initial board and set layout
         drawBoard(gridPane, currentBoard, callback)
         root.center = gridPane
-        root.top = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
+        root.right = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         root.bottom = moveLabel
         gridPane.requestFocus()
-        root.right = menuButton
+        root.top = menuBar
         gridPane.style = "-fx-grid-lines-visible: true;"
         primaryStage.title = "Stephan's Solitaire UI"
         primaryStage.scene = scene
@@ -195,8 +252,9 @@ class GUI : Application() {
         val draw = fun(i: Int, j: Int, value: Int) {
             var btn = Button()
             /// only non-empty holes get a peg
-            if (value == 1) 
+            if (value == 1) {
                 btn.graphic = createPegImage()
+            }
 
             /// default sizes for buttons making look background image nice
             btn.setMaxSize(50.0, 50.0)
