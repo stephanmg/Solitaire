@@ -1,3 +1,4 @@
+import kotlinx.serialization.Serializable;
 /**
  * @brief A representation of a game board
  * The game board consists out of pegs which may be empty or full or undefined (not part of the board or boundary)
@@ -26,6 +27,7 @@
  * |-1 | -1 | -1 | 1 | 1 | 1 | -1 | -1 | -1|
  * |---------------------------------------|
  */
+@Serializable
 data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0) {
     /**
      * @brief toString()

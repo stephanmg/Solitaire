@@ -1,8 +1,9 @@
 plugins {
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
     id 'java'
     id "com.jfrog.bintray" version "1.8.5"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
 }
 
 sourceCompatibility = 1.8
@@ -80,4 +81,8 @@ bintray {
        from 'build/libs/Solitaire-bundled.jar'
        into 'standalone_files/level1'
     }
+}
+
+dependencies {
+   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
 }

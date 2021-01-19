@@ -1,3 +1,4 @@
+import kotlinx.serialization.Serializable;
 /**
  * PegTypes
  */
@@ -12,6 +13,7 @@ enum class PegType {
  * @param i offset of peg in row or -1 if not placed on board
  * @param j: offset of peg in column or -1 if not placed on board
  */
+@Serializable
 data class Peg(
     private val id: Int=-1,
     var value: Int=0, /* TODO: replace Int with an enum: EMPTY, FULL, BOUNDARY */
