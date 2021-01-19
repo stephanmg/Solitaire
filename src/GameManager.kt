@@ -12,6 +12,8 @@ enum class BoardType {
 /**
  * @brief manages games
  * TODO: Use GameManagmentUtils in the GameManager
+ * TODO: Should use GameState to capture all game data, e.g. board and number of validMoves
+ * TODO: Keep saved games in a map of file name mapping to the GameState: Map<FileName/or Index as Int, GameState (serialized)>
  */
 class GameManager(val i: Int, val j: Int, val size: Int, val type: BoardType) {
     private var board: Board? = null
