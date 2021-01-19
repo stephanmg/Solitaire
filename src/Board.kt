@@ -1,7 +1,8 @@
 import kotlinx.serialization.Serializable;
 /**
  * @brief A representation of a game board
- * The game board consists out of pegs which may be empty or full or undefined (not part of the board or boundary)
+ * The game board consists out of pegs which may be empty or full or 
+ * undefined (not part of the board or boundary)
  *
  * @param pegs building blocks of board
  * @param size dimensions of board
@@ -28,9 +29,9 @@ import kotlinx.serialization.Serializable;
  * |---------------------------------------|
  */
 @Serializable
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves:Int =0) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves:Int = 0) {
     /**
-     * @brief toString()
+     * @brief string representation of a board
      * @see Object.toString()
      */
     override fun toString(): String {
@@ -45,7 +46,7 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, v
      */
     fun numPegs(): Int {
         var numPegsInBoard = 0
-        for (peg in pegs) if (peg.value.value == 1) numPegsInBoard++
+        for (peg in pegs) if (peg.value.available()) numPegsInBoard++
         return numPegsInBoard
     }
 
@@ -77,10 +78,10 @@ class BoardFactory {
         for (i in 0 until n) {
             for (j in 0 until n) {
                 if (i == ((n-1) / 2)  && j == ((n-1) / 2)) {
-                    println("Empty peg at: $i,$j")
-                    board.pegs[Pair(i, j)] = Peg(j + i * n, 0, i, j)
+                    println("Empty peg at coordinates (x, y): $i, $j")
+                    board.pegs[Pair(i, j)] = Peg(j + i * n, PegType.EMPTY, i, j)
                 } else {
-                    board.pegs[Pair(i, j)] = Peg(j + i * n, 1, i, j)
+                    board.pegs[Pair(i, j)] = Peg(j + i * n, PegType.FULL, i, j)
                 }
             }
         }
@@ -116,17 +117,17 @@ class BoardFactory {
         for (i in 0 until 9) {
             for (j in 0 until 9) {
                 if (i < 3 && j < 3) /* upper left border */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.BOUNDARY, i, j)
                 else if (i < 3 && j > 5) /* lower left border */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.BOUNDARY, i, j)
                 else if (i > 5 && j < 3) /* upper right border */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.BOUNDARY, i, j)
                 else if (i > 5 && j > 5) /* lower right border */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, -1, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.BOUNDARY, i, j)
                 else if (i == ((9-1) / 2)  && j == ((9-1) / 2))  /* center hole empty */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, 0, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.EMPTY, i, j)
                 else /* peg in hole */
-                   board.pegs[Pair(i, j)] = Peg(j + i * 9, 1, i, j)
+                   board.pegs[Pair(i, j)] = Peg(j + i * 9, PegType.FULL, i, j)
             }
         }
         return board

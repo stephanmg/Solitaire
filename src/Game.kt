@@ -7,7 +7,7 @@ import java.util.*
  */
 class Game {
     /**
-     * Legal jump directions are: NORTH, SOUTH, EAST, WEST
+     * Legal jump directions are: NORTH, SOUTH, EAST or WEST
      */
     enum class Direction {
         NORTH,
@@ -47,40 +47,47 @@ class Game {
          * @return true if can jump otherwise false
          */
         fun jumpable(x: Int, y:Int): Boolean {
+            /// NOT PART OF THE BOARD (Should not happen actually but who knows)
             if (pegs[Pair(i+2*x, j+2*y)] == null) {
                 return false
             } else  {
-                if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
-                    /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
-                    /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
+                /// BOUNDARY
+                if (pegs[Pair(i+2*x, j+2*y)]!!.value == PegType.BOUNDARY) { 
                     return false
                 }
-                if ((pegs[Pair(i, j)]!!.value == 1) &&
-                    (pegs[Pair(i + x, j + y)]!!.value == 1) &&
-                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == 0)) {
+                /// LEGAL JUMP 
+                if ((pegs[Pair(i, j)]!!.value == PegType.FULL) &&
+                    (pegs[Pair(i + x, j + y)]!!.value == PegType.FULL) &&
+                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == PegType.EMPTY)) {
                     println("jumps to: " + (i+2*x) + ", " + (j+2*y))
                     println("value at this pos: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value)
                     println("\n")
                     return true
                 }
                 return false
-
             }
         }
 
+        /// Check all directions: EAST, NORTH, SOUTH and WEST
         return when (direction) {
-            Direction.EAST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(1, 0)
-            Direction.NORTH -> jumpable(0,1) // if (onBoundary(i, j)) false else jumpable(0, 1)
-            Direction.SOUTH -> jumpable(0,-1) // if (onBoundary(i, j)) false else jumpable(0, -1)
-            Direction.WEST -> jumpable(-1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
+            Direction.EAST -> jumpable(1, 0) // if (onBoundary(i, j)) false else jumpable(1, 0)
+            Direction.NORTH -> jumpable(0, 1) // if (onBoundary(i, j)) false else jumpable(0, 1)
+            Direction.SOUTH -> jumpable(0, -1) // if (onBoundary(i, j)) false else jumpable(0, -1)
+            Direction.WEST -> jumpable(-1, 0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
         }
     }
 
+    /**
+     * @brief perfoms the jump and returns am modified board
+     * @param peg
+     * @param direction
+     * @param currentBoard
+     */
     private fun doJump(peg: Peg, direction: Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
-             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0
-                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0
-                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1 }
+             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = PegType.EMPTY
+                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = PegType.EMPTY
+                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = PegType.FULL }
 
         when (direction) {
             Direction.EAST -> move(peg, 1, 0)
@@ -88,11 +95,12 @@ class Game {
             Direction.SOUTH -> move(peg, 0, -1)
             Direction.WEST -> move(peg, -1, 0)
         }
+
         return currentBoard
     }
 
     /**
-     * @brief jump
+     * @brief jump helper
      * Helper method to perform check and then jump if possible
      * @param peg
      * @param direction
@@ -121,7 +129,7 @@ class Game {
      * Finds some solution or all solutions if solution is feasible
      * @param currentBoard
      * Will be used during interactive game play
-     * TODO: How do we now if a solution was reached?
+     * TODO: How do we now if a solution was reached? (Hardcode for known boards or until level-based DFS stuck)
      */
     fun solveDfs(currentBoard: Board): Boolean {
         val queue: LinkedList<Node> = LinkedList()
@@ -162,6 +170,12 @@ class Game {
  * @brief a collection of useful game utilities
  */
 object GameUtils {
+    /**
+     * @brief check if peg can jump
+     * @param peg
+     * @param direction
+     * @param currentBoard
+     */
     @JvmStatic
     fun canJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Boolean {
         val pegs = currentBoard.pegs
@@ -173,16 +187,18 @@ object GameUtils {
          * @param x
          * @param y
          * @return true if can jump otherwise false
-         * TODO: Make this check correct anyway, also if we disallow selecting boundary elements in the GUI
+         * TODO: Make this check correct anyway, also if we disallow selecting boundary elements in the GUI this will not have any impact
          */
+        /// NOT PART OF THE BOARD (Should not happen actually but who knows)
         fun jumpable(x: Int, y:Int): Boolean {
-            if (pegs[Pair(i+2*x, j+2*y)] == null) { /// Outside of the defined board, e.g. 5x5 board, we might pick a peg we want to jump to which is beyond the board, not possible
+            if (pegs[Pair(i+2*x, j+2*y)] == null) {
                 println("peg null!")
                 return false
             } else {
                 println(i+2*x)
                 println(i+2*y)
-                if (pegs[Pair(i+2*x, j+2*y)]!!.value == -1) { // Boundary... TODO maybe should refactor board data structure
+                /// BOUNDARY
+                if (pegs[Pair(i+2*x, j+2*y)]!!.value == PegType.BOUNDARY) { // Boundary... TODO maybe should refactor board data structure
                     /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
                     /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
                     println("Peg (to position) on boundary!")
@@ -196,10 +212,10 @@ object GameUtils {
                     return false;
                 }
                 */
-
-                if ((pegs[Pair(i, j)]!!.value == 1) &&
-                    (pegs[Pair(i + x, j + y)]!!.value == 1) &&
-                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == 0)) {
+                /// LEGAL JUMP
+                if ((pegs[Pair(i, j)]!!.value == PegType.FULL) &&
+                    (pegs[Pair(i + x, j + y)]!!.value == PegType.FULL) &&
+                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == PegType.EMPTY)) {
                     println("jumps to: " + (i+2*x) + ", " + (j+2*y))
                     println("value at this pos: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value)
                     println("\n")
@@ -212,19 +228,25 @@ object GameUtils {
             }
         }
 
+        /// Check all directions: EAST, NORTH, SOUTH and WEST
         return when (direction) {
-            Game.Direction.EAST -> jumpable(-1,0) // if (onBoundary(i, j)) false else jumpable(1, 0)
-            Game.Direction.NORTH -> jumpable(0,1) // if (onBoundary(i, j)) false else jumpable(0, 1)
-            Game.Direction.SOUTH -> jumpable(0,-1) // if (onBoundary(i, j)) false else jumpable(0, -1)
-            Game.Direction.WEST -> jumpable(1,0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
+            Game.Direction.EAST -> jumpable(-1, 0) // if (onBoundary(i, j)) false else jumpable(1, 0)
+            Game.Direction.NORTH -> jumpable(0, 1) // if (onBoundary(i, j)) false else jumpable(0, 1)
+            Game.Direction.SOUTH -> jumpable(0, -1) // if (onBoundary(i, j)) false else jumpable(0, -1)
+            Game.Direction.WEST -> jumpable(1, 0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
         }
     }
 
+    /**
+     * @brief
+     * @param peg
+     * @param currentBoard
+     */
     private fun doJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Board {
         val move: (Peg, Int, Int) -> Unit =
-            { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = 0
-                currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = 0
-                currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = 1 }
+            { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = PegType.EMPTY
+                currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = PegType.EMPTY
+                currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = PegType.FULL }
 
         when (direction) {
             Game.Direction.EAST -> move(peg, -1, 0)
@@ -232,6 +254,7 @@ object GameUtils {
             Game.Direction.SOUTH -> move(peg, 0, -1)
             Game.Direction.WEST -> move(peg, 1, 0)
         }
+        
         return currentBoard
     }
 

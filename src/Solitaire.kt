@@ -23,7 +23,6 @@ class Solitaire {
 
             Application.launch(GUI::class.java, *args)
 
-            /// TODO: Add peg.png properly to the resource folder
             /// TODO: Improve GameManager (Gamestate) and add Undo/Redo a move operation to GameManager
             /// TODO: Add GUI label to indicate if solution can still be reached or not (check with level based dfsSolve)
             /// TODO: Add GUI interface to let the computer play a game until the end (solve it)

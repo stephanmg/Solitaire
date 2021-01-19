@@ -259,10 +259,10 @@ class GUI : Application() {
      * @param callback - button callback to remove and add pegs to the gridPane
      */
     private fun drawBoard(gridPane: GridPane, board: Board, callback: (btn: Button, i: Int, j: Int) -> Unit) {
-        val draw = fun(i: Int, j: Int, value: Int) {
+        val draw = fun(i: Int, j: Int, value: PegType) {
             var btn = Button()
             /// only non-empty holes get a peg
-            if (value == 1) {
+            if (value == PegType.FULL) {
                 btn.graphic = createPegImage()
             }
 
@@ -270,7 +270,7 @@ class GUI : Application() {
             btn.setMaxSize(50.0, 50.0)
             btn.setMinSize(50.0, 50.0)
             /// only buttons within the board have a clickable button
-            if (value != -1) {
+            if (value != PegType.BOUNDARY) {
                btn.onAction = EventHandler {
                     callback(btn, j, i)
                }
@@ -281,7 +281,7 @@ class GUI : Application() {
                 }
             }
 
-            if (value == -1) 
+            if (value == PegType.BOUNDARY)
                 btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
             else
                 btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
