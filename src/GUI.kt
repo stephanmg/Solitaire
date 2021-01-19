@@ -59,10 +59,7 @@ class GUI : Application() {
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
-            println("count: ${count}")
             if ((count % 2) == 0) {
-                println("fromPosX: ${fromPosX}")
-                println("fromPosY: ${fromPosY}")
                 curBtn = btn
                 nextBtn = null
                 fromPosX = i
@@ -76,7 +73,6 @@ class GUI : Application() {
                 nextBtn = btn
                 val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
                 if (dir == null) {
-                    println("Null!")
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
@@ -96,7 +92,6 @@ class GUI : Application() {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     validMoves++
-                    println("Do jump!")
                 // otherwise new trial
                 } else {
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -104,7 +99,6 @@ class GUI : Application() {
                     curBtn = nextBtn
                 }
             } 
-            println("only this!")
             count++
 
             /// set number of valid moves label
@@ -212,6 +206,22 @@ class GUI : Application() {
             it.onAction = EventHandler() {
                 createBoard(text)
             }
+        }
+
+        val displayAbout = fun() {
+            throw NotImplementedError("Display about not yet implemented!")
+        }
+
+        val displayHelp = fun() {
+            throw NotImplementedError("Display help not yet implemented!")
+        }
+ 
+        menuHelp.onAction = EventHandler() {
+            displayHelp()
+        }
+
+        menuAbout.onAction = EventHandler() {
+            displayAbout()
         }
 
         /// draw initial board and set layout
