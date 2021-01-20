@@ -2,7 +2,7 @@
  * @brief move west
  */
 class MoveLeft(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    /// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board
+    /// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board: Save the state, coudl also use Memento
     val oldBoard = gameManager.board()!!.copy()
 
     override fun execute() {

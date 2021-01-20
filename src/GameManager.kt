@@ -16,7 +16,9 @@ class GameManager(val type: BoardType) {
     public var board: Board? = null
     /* TODO: Should use a GameState to capture all game data, 
         e.g. board and number of validMoves -> then serialize
-        this with the GameStateutils and check if board wins */
+        this with the GameStateutils and check if board wins,
+        add also explicit move commands: left, right, top, bottom 
+        to the GameState class ... these can use GameUtils functions */
     val history = mutableListOf<UndoableVisualCommand>()
     
     /**
@@ -66,7 +68,7 @@ class GameManager(val type: BoardType) {
      * @brief redo a move
      */
     public fun redo() {
-        /* TODO: Use Memento pattern to support redo operation */
+        /* TODO: Could use Memento pattern to support redo operation and use GameState to save state */
     }
 
     /**
