@@ -8,20 +8,15 @@ enum class BoardType {
 }
 
 /**
- * @brief manages games (TODO make this a singleton)
- * 
+ * @brief manages games 
  * Note: !!! Currently only one game is allowed to be saved and restored !!!
- * 
- * TODO: Keep saved games in a map of file name mapping to the GameState: 
- * Map<FileName/or Index as Int, GameState (serialized)>
- * to allow load and store of multiple games
- * Serialize the list of games in the list and restore in GameManager
+ * TODO: Make this a singleton? Support multiple save games?
  */
 class GameManager(val type: BoardType) {
     public var board: Board? = null
     /* TODO: Should use a GameState to capture all game data, 
-    e.g. board and number of validMoves -> then serialize
-    this with the GameStateutils  */
+        e.g. board and number of validMoves -> then serialize
+        this with the GameStateutils and check if board wins */
     val history = mutableListOf<UndoableVisualCommand>()
     
     /**
@@ -56,12 +51,27 @@ class GameManager(val type: BoardType) {
         GameStateUtils.save(board!!)
     }
 
+    /**
+     * @brief undo a move
+     */
     public fun undo() {
-        history.last().undo()
-        println(board)
-        history.removeLast()
+        if (history.count() > 0) {
+           history.last().undo()
+           println(board)
+           history.removeLast()
+        }
     }
 
+    /**
+     * @brief redo a move
+     */
+    public fun redo() {
+        /* TODO: Use Memento pattern to support redo operation */
+    }
+
+    /**
+     * @brief perform move on board
+     */
     public fun move(command: UndoableVisualCommand) {
         history.add(command)
         command.execute()
