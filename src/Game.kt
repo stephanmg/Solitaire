@@ -35,6 +35,13 @@ class Game {
         }
     }
 
+    /**
+     * @brief 
+     * 
+     * @param peg
+     * @param direction
+     * @param currentBoard
+     */
     private fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
         val pegs = currentBoard.pegs
         val i = peg.i
@@ -78,7 +85,7 @@ class Game {
     }
 
     /**
-     * @brief perfoms the jump and returns am modified board
+     * @brief performs the jump and returns am modified board
      * @param peg
      * @param direction
      * @param currentBoard
@@ -254,7 +261,7 @@ object GameUtils {
             Game.Direction.SOUTH -> move(peg, 0, -1)
             Game.Direction.WEST -> move(peg, 1, 0)
         }
-        
+
         return currentBoard
     }
 
@@ -301,6 +308,16 @@ object GameUtils {
             }
         }
         return true
+    }
+
+    /**
+     * @brief perform a move
+     * @param command
+     * @param gameManager
+     */
+    @JvmStatic
+    fun move(command: UndoableVisualCommand, gameManager: GameManager) {
+        gameManager.move(command)
     }
 }
 

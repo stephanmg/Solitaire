@@ -26,7 +26,7 @@ data class Peg(
     /**
      * @brief string representation of a peg
      */
-    override fun toString(): String = "(${if (isInitialized()) "(Warning: Not initialized)" else ""} Peg with index $id has value $value at position ($i, $j)\n"
+    override fun toString(): String = "${if (isInitialized()) "(Warning: Not initialized)" else ""}Peg with index $id has value $value at position ($i, $j)\n"
 
     /**
      * @brief check if peg is available
@@ -42,6 +42,6 @@ data class Peg(
      * @brief check if peg has been initialized
      */
     private fun isInitialized(): Boolean {
-        return (i != -1 && j != -1 && id != -1)
+        return (i == -1 && j == -1 && id == -1)
     }
 }

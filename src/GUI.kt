@@ -27,8 +27,6 @@ import javafx.scene.layout.VBox
  */
 class GUI : Application() {
     private var canStillWin = true
-    private val pegImage = GUI::class.java.getResource("/peg.png").toString()
-    private fun createPegImage() = ImageView(Image(pegImage))
     private val n = 5
     /// TODO: Improve alignment
     private val sizeX = 250.0*2+100
@@ -45,14 +43,15 @@ class GUI : Application() {
         var curBtn: Button? = null
         var nextBtn: Button?
         var count = 0
-        var currentBoard: Board = BoardFactory().classic() 
         var fromPosX: Int = -1
         var fromPosY: Int = -1
         val moveLabel = Label("Number of moves: 0")
         var validMoves = 0
+        var gameManager: GameManager = GameManager(BoardType.CLASSIC)
 
         /**
          * @brief callback to check and move pegs
+         * TODO: refactor to disentangle GUI from backend
          * @param btn
          * @param i
          * @param j
@@ -77,18 +76,30 @@ class GUI : Application() {
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
                 // check if peg can legally jump... 
-                } else if (GameUtils.canJump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)) {
-                    // then do the jump
-                    GameUtils.jump(currentBoard.pegs[Pair(fromPosX,fromPosY)]!!, dir, currentBoard)
-                    for (peg in currentBoard.pegs) {
-                        val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
+                } else if (GameUtils.canJump(gameManager.board()!!.pegs[Pair(fromPosX,fromPosY)]!!, dir, gameManager.board()!!)) {
+                    // then do the jump in the board
+                    // GameUtils.jump(gameManager.board()!!.pegs[Pair(fromPosX,fromPosY)]!!, dir, gameManager.board()!!)
+                    when (dir) {
+                        Game.Direction.EAST -> GameUtils.move(MoveLeft(gameManager, fromPosX, fromPosY), gameManager)
+                        Game.Direction.WEST -> GameUtils.move(MoveRight(gameManager, fromPosX, fromPosY), gameManager)
+                        Game.Direction.NORTH -> GameUtils.move(MoveTop(gameManager, fromPosX, fromPosY), gameManager)
+                        Game.Direction.SOUTH-> GameUtils.move(MoveBottom(gameManager, fromPosX, fromPosY), gameManager)
+                    }
+
+                    // and draw the jump we made in the board as well
+                    GUIUtils.draw(gridPane, gameManager)
+                    /* 
+                    for (peg in gameManager.board()!!.pegs) {
+                        val button = GUIUtils.getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
                         if (button is Button) {
                             val b: Button = button
-                            b.graphic = if (peg.value.available()) createPegImage() else null
+                            b.graphic = if (peg.value.available()) GUIUtils.createPegImage() else null
                         }
                     }
+                    */
+
                     curBtn!!.graphic = null;
-                    nextBtn!!.graphic = createPegImage()
+                    nextBtn!!.graphic = GUIUtils.createPegImage()
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     validMoves++
@@ -107,8 +118,8 @@ class GUI : Application() {
             moveLabel.text = "Number of moves: ${validMoves}"
 
             /// indicate loss or win
-            val won: Boolean = currentBoard.numPegs() == 5
-            val lost: Boolean = GameUtils.checkGameOver(currentBoard)
+            val won: Boolean = gameManager.board()!!.numPegs() == 5
+            val lost: Boolean = GameUtils.checkGameOver(gameManager.board()!!)
             if (won || lost) {
                 // set background
                 val label = Label()
@@ -119,7 +130,7 @@ class GUI : Application() {
                 // won
                 if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
-                if (GameUtils.checkGameOver(currentBoard)) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
+                if (GameUtils.checkGameOver(gameManager.board()!!)) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
@@ -130,7 +141,7 @@ class GUI : Application() {
          */
         val configureBoardView = fun() {
             gridPane = GridPane()
-            drawBoard(gridPane, currentBoard, callback)
+            drawBoard(gridPane, gameManager.board()!!, callback)
             root.center=gridPane
             gridPane.style = "-fx-grid-lines-visible: true;"
         }
@@ -140,36 +151,44 @@ class GUI : Application() {
          * @param text
          */
         val createBoard = fun(text: String) {
-            /// TODO: Refactor: use BoardFactory().board()
             when (text) {
-                "Classic" -> currentBoard = BoardFactory().classic() 
-                "Square" -> currentBoard = BoardFactory().square(n)
+                "Classic" -> gameManager = GameManager(BoardType.CLASSIC)
+                "Square" -> gameManager = GameManager(BoardType.SQUARE)
             } 
 
             /// configure board
             configureBoardView()
         }
 
+        /**
+         * @brief manage the game
+         * @param text
+         */
         val manageGame = fun(text: String) {
-
             val reinit = fun() {
-                currentBoard.pegs.forEach { 
-                    var btn = getNodeFromGridPane(gridPane, it.value.i, it.value.j) as Button
-                    btn.graphic = if (it.value.available()) createPegImage() else null
+                gameManager.board()!!.pegs.forEach { 
+                    /// TODO: If other board type is loaded we need to change gridpane: gridPane might be too big or too large (buttons)
+                    /// Encode board type in gameManager serialization, then check in gameManger if same board type loaded or not, if not need to call drawBoard and update gridPane
+                    var btn = GUIUtils.getNodeFromGridPane(gridPane, it.value.i, it.value.j) as Button
+                    btn.graphic = if (it.value.available()) GUIUtils.createPegImage() else null
                     count = 0
                 }
             }
 
             when (text) {
                 "Save" -> {
-                    GameManagementUtils.save(currentBoard)
+                    gameManager.save()
                 }
                 "Load" -> {
-                    currentBoard = GameManagementUtils.load() ?: BoardFactory().empty()
+                    gameManager.load() // return true if same baord type, or false if need to adapt board in GUI
                     reinit()
                 }
                 "Reset" -> {
-                    currentBoard = BoardFactory().classic()
+                    gameManager.reset()
+                    reinit()
+                }
+                "Undo" -> {
+                    gameManager.undo()
                     reinit()
                 }
             }
@@ -184,6 +203,8 @@ class GUI : Application() {
         menuGame.getItems().add(MenuItem("Save"))
         menuGame.getItems().add(MenuItem("Load"))
         menuGame.getItems().add(MenuItem("Reset"))
+        menuGame.getItems().add(MenuItem("Undo"))
+        menuGame.getItems().add(MenuItem("Redo"))
 
         menuBoards.getItems().add(MenuItem("Classic"))
         menuBoards.getItems().add(MenuItem("Square"))
@@ -225,7 +246,7 @@ class GUI : Application() {
         }
 
         /// draw initial board and set layout
-        drawBoard(gridPane, currentBoard, callback)
+        drawBoard(gridPane, gameManager.board()!!, callback)
         root.center = gridPane
         root.right = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         root.bottom = moveLabel
@@ -239,21 +260,6 @@ class GUI : Application() {
     }
 
     /**
-     * @brief helper method to get a node from the grid pane
-     * @param gridPane
-     * @param col
-     * @param row
-     */
-    private fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
-        for (node in gridPane.children) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node
-            }
-        }
-        return null
-    }
-    
-    /**
      * @brief draw a board
      * @param gridPane
      * @param callback - button callback to remove and add pegs to the gridPane
@@ -263,7 +269,7 @@ class GUI : Application() {
             var btn = Button()
             /// only non-empty holes get a peg
             if (value == PegType.FULL) {
-                btn.graphic = createPegImage()
+                btn.graphic = GUIUtils.createPegImage()
             }
 
             /// default sizes for buttons making look background image nice
@@ -293,5 +299,40 @@ class GUI : Application() {
         board.pegs.forEach { 
             coordinates, peg -> draw(coordinates.first, coordinates.second, peg.value)
         }
+    }
+}
+
+    object GUIUtils {
+    @JvmStatic
+    fun draw(gridPane: GridPane, gameManager: GameManager) {
+        for (peg in gameManager.board()!!.pegs) {
+            val button = getNodeFromGridPane(gridPane, peg.value.i, peg.value.j)
+            if (button is Button) {
+                val b: Button = button
+                b.graphic = if (peg.value.available()) createPegImage() else null
+            }
+        }
+    }
+
+    /**
+     * @brief helper method to get a node from the grid pane
+     * @param gridPane
+     * @param col
+     * @param row
+     */
+    @JvmStatic
+    fun getNodeFromGridPane(gridPane: GridPane, col: Int, row: Int): Node? {
+        for (node in gridPane.children) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node
+            }
+        }
+        return null
+    }
+
+    @JvmStatic
+    fun createPegImage(): ImageView {
+        val pegImage = GUI::class.java.getResource("/peg.png").toString()
+        return ImageView(Image(pegImage))
     }
 }

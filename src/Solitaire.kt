@@ -22,10 +22,9 @@ class Solitaire {
             }
 
             Application.launch(GUI::class.java, *args)
-
-            /// TODO: Improve GameManager (Gamestate) and add Undo/Redo a move operation to GameManager
             /// TODO: Add GUI label to indicate if solution can still be reached or not (check with level based dfsSolve)
-            /// TODO: Add GUI interface to let the computer play a game until the end (solve it)
+            /// TODO: Add a redo/undo operation?
+            /// TODO: Add UI to let the computer play a game until the end (solve it) and/or add replay option
         }
     }
 }

@@ -37,7 +37,7 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, v
     override fun toString(): String {
         val builder = StringBuilder()
         for (peg in pegs) { builder.append(peg) }
-        return "Board with following pegs\n:$builder"
+        return "Board with following pegs:\n$builder"
     }
 
     /**
@@ -89,27 +89,6 @@ class BoardFactory {
     }
 
     /**
-     * @brief star board
-     */
-    private fun star(n: Int, m:Int) {
-        throw NotImplementedError("Star boards not yet implemented!")
-    }
-
-    /**
-     * @brief user-defined board from input file
-     */
-    private fun user(size: Int) {
-        throw NotImplementedError("User-defined boards not yet implemented!")
-    }
-    
-    /**
-     * @brief rectangular board
-     */
-    private fun rectangular(n: Int, m: Int) {
-        throw NotImplementedError("Rectangular boards not yet implemented!")
-    }
-
-    /**
      * @brief classic 33 board
      */
     public fun classic(): Board {
@@ -138,17 +117,13 @@ class BoardFactory {
      * @param i max size in x 
      * @param j max size in y
      * @param size total number of pegs
-     * @param type board's layout: square, empty, star or user-defined
+     * @param type board's layout: square or classic
      */
-    fun board(i: Int, j: Int, size: Int, type: BoardType): Board {
-        when (type) {
-            BoardType.SQUARE -> { square(i) }
-            BoardType.STAR -> { star(i, j) }
-            BoardType.RECTANGULAR -> { rectangular(i, j) }
-            BoardType.EMPTY -> { empty() }
-            BoardType.USER -> { user(size) }
+    fun board(type: BoardType): Board {
+        return when (type) {
+            BoardType.SQUARE -> { square(5) }
             BoardType.CLASSIC -> { classic() }
-        }
-        return empty()
+            else -> empty()
+        } 
     }
 }
