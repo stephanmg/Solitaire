@@ -54,7 +54,7 @@ class GUI : Application() {
          * @param btn
          * @param i
          * @param j
-         * Note could use soem refactoring and improvements
+         * Note could use some refactoring and improvements
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"

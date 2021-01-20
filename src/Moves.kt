@@ -1,3 +1,6 @@
+/**
+ * @brief move west
+ */
 class MoveLeft(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
     /// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board
     val oldBoard = gameManager.board()!!.copy()
@@ -11,6 +14,9 @@ class MoveLeft(val gameManager: GameManager, val fromPosX: Int, val fromPosY: In
     }
 }
 
+/**
+ * @brief move east
+ */
 class MoveRight(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
     val oldBoard = gameManager.board()!!.copy()
     override fun execute() {
@@ -22,6 +28,9 @@ class MoveRight(val gameManager: GameManager, val fromPosX: Int, val fromPosY: I
     }
 }
 
+/**
+ * @brief move north
+ */
 class MoveTop(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
     val oldBoard = gameManager.board()!!.copy()
     override fun execute() {
@@ -33,6 +42,9 @@ class MoveTop(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int
     }
 }
 
+/**
+ * @brief move south
+ */
 class MoveBottom(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
     val oldBoard = gameManager.board()!!.copy()
 
