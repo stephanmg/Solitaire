@@ -316,24 +316,24 @@ object GameUtils {
      * @param gameManager
      */
     @JvmStatic
-    private fun move(command: UndoableVisualCommand, gameManager: GameManager) {
-        gameManager.execute(command)
+    private fun move(command: UndoableVisualCommand, moveManager: MoveManager) {
+        moveManager.execute(command)
     }
 
     /**
      * @brief move
-     * @param gameManager,
+     * @param gameManager
      * @param fromPosX,
      * @param fromPosY
      * @param direction
      */
     @JvmStatic
-    fun move(fromPosX: Int, fromPosY: Int, direction: Game.Direction, gameManager: GameManager) {
+    fun move(fromPosX: Int, fromPosY: Int, direction: Game.Direction, moveManager: MoveManager) {
         when(direction) {
-            Game.Direction.EAST -> move(MoveEast(gameManager.game, fromPosX, fromPosY), gameManager)
-            Game.Direction.WEST -> move(MoveWest(gameManager.game, fromPosX, fromPosY), gameManager)
-            Game.Direction.NORTH -> move(MoveNorth(gameManager.game, fromPosX, fromPosY), gameManager)
-            Game.Direction.SOUTH-> move(MoveSouth(gameManager.game, fromPosX, fromPosY), gameManager)
+            Game.Direction.EAST -> move(MoveEast(moveManager.game, fromPosX, fromPosY), moveManager)
+            Game.Direction.WEST -> move(MoveWest(moveManager.game, fromPosX, fromPosY), moveManager)
+            Game.Direction.NORTH -> move(MoveNorth(moveManager.game, fromPosX, fromPosY), moveManager)
+            Game.Direction.SOUTH-> move(MoveSouth(moveManager.game, fromPosX, fromPosY), moveManager)
         }
     }
 }
