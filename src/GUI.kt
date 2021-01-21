@@ -46,8 +46,7 @@ class GUI : Application() {
         var fromPosY: Int = -1
         val moveLabel = Label("Number of moves: 0")
         var validMoves = 0
-        var gameManager = GameManager()
-        var game = PlayableGame(BoardType.CLASSIC)
+        var gameManager = GameManager(PlayableGame(BoardType.CLASSIC))
         val n = 1 /* classic board peg wins with 1: TODO encode into gameManager or board? */
 
         /**
@@ -77,19 +76,19 @@ class GUI : Application() {
                     nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
                     curBtn = nextBtn
                    // else check if peg can legally jump in the current board in given direction
-                } else if (GameUtils.canJump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, dir, game.gameState!!.board)) {
+                } else if (GameUtils.canJump(gameManager.game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, dir, gameManager.game.gameState!!.board)) {
                     // i.) then do the jump in the board
-                    GameUtils.move(game, fromPosX, fromPosY, dir, gameManager)
+                    gameManager.move(fromPosX, fromPosY, dir)
 
                     // ii.) and draw the jump we made in the board's GUI as well
-                    GUIUtils.draw(gridPane, game)
+                    GUIUtils.draw(gridPane, gameManager.game)
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = GUIUtils.createPegImage()
                     GUIUtils.stylize(curBtn, nextBtn)
 
                     // iii.) increment number of valid moves
                     validMoves++
-                    game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, validMoves)
+                    gameManager.game.gameState = GameState(gameManager.game.gameState!!.board, gameManager.game.gameState!!.type, validMoves)
                 // otherwise new trial
                 } else {
                     GUIUtils.stylize(curBtn, nextBtn)
@@ -105,8 +104,8 @@ class GUI : Application() {
             moveLabel.text = "Number of moves: ${validMoves}"
 
             /// indicate loss or win
-            val won: Boolean = game.gameState!!.board.numPegs() == n
-            val lost: Boolean = GameUtils.checkGameOver(game.gameState!!.board)
+            val won: Boolean = gameManager.game.gameState!!.board.numPegs() == n
+            val lost: Boolean = GameUtils.checkGameOver(gameManager.game.gameState!!.board)
             if (won || lost) {
                 // set background
                 val label = Label()
@@ -117,7 +116,7 @@ class GUI : Application() {
                 // won
                 if (won) { label.text = "Won!"; label.textFill = Color.web("#00ff00") }
                 // game over
-                if (GameUtils.checkGameOver(game.gameState!!.board)) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
+                if (GameUtils.checkGameOver(gameManager.game.gameState!!.board)) { label.text = "Game over!"; label.textFill = Color.web("#ff0000"); canStillWin = false }
                 popup.content.add(label)
                 popup.show(primaryStage)
             }
@@ -128,7 +127,7 @@ class GUI : Application() {
          */
         val configureBoardView = fun() {
             gridPane = GridPane()
-            drawBoard(gridPane, game.gameState!!.board, callback)
+            drawBoard(gridPane, gameManager.game.gameState!!.board, callback)
             root.center=gridPane
             gridPane.style = "-fx-grid-lines-visible: true;"
         }
@@ -139,8 +138,8 @@ class GUI : Application() {
          */
         val createBoard = fun(text: String) {
             when (text) {
-                "Classic" -> game = PlayableGame(BoardType.CLASSIC)
-                "Square" -> game = PlayableGame(BoardType.SQUARE)
+                "Classic" -> gameManager = GameManager(PlayableGame(BoardType.CLASSIC))
+                "Square" -> gameManager = GameManager(PlayableGame(BoardType.SQUARE))
             } 
 
             /// configure board
@@ -153,27 +152,27 @@ class GUI : Application() {
          */
         val manageGame = fun(text: String) {
             val reinit = fun() {
-                game.gameState!!.board.pegs.forEach { 
+                gameManager.game.gameState!!.board.pegs.forEach { 
                     /// TODO: If other board type is loaded we need to change gridpane: gridPane might be too big or too large (buttons)
                     /// Encode board type in gameManager serialization, then check in gameManger if same board type loaded or not, if not need to call drawBoard and update gridPane
                     var btn = GUIUtils.getNodeFromGridPane(gridPane, it.value.i, it.value.j) as Button
                     btn.graphic = if (it.value.available()) GUIUtils.createPegImage() else null
                     count = 0
-                    validMoves = game.gameState!!.moves
+                    validMoves = gameManager.game.gameState!!.moves
                     moveLabel.text = "Number of moves: ${validMoves}"
                 }
             }
 
             when (text) {
                 "Save" -> {
-                    gameManager.save(game)
+                    gameManager.save()
                 }
                 "Load" -> {
-                    gameManager.load(game) // TODO: return true if same board type, or false if need to adapt board in GUI otherwise null exceptions
+                    gameManager.load() // TODO: return true if same board type, or false if need to adapt board in GUI otherwise null exceptions
                     reinit()
                 }
                 "Reset" -> {
-                    gameManager.reset(game)
+                    gameManager.reset()
                     reinit()
                 }
                 "Undo" -> {
@@ -235,7 +234,7 @@ class GUI : Application() {
         }
 
         /// draw initial board and set layout
-        drawBoard(gridPane, game.gameState!!.board, callback)
+        drawBoard(gridPane, gameManager.game.gameState!!.board, callback)
         root.center = gridPane
         root.right = Label(if (canStillWin) "Can still win" else "Cannot win anymore")
         root.bottom = moveLabel

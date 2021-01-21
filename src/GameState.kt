@@ -21,24 +21,25 @@ class PlayableGame(val type: BoardType) {
   // Reset the current game
   val reset: Reset = Reset(this)
 
-   public fun reset() {
-     reset.execute()
-   }
+  /**
+   * @brief reset the current game
+   */
+  public fun reset() {
+      reset.execute()
+  }
 
   init {
     gameState = GameState(BoardFactory().board(type), type, 0)
   }
-
-
 }
 
-
 /**
- * @brief utility functions for managing the game state
+ * @brief utility functions for managing the game state's serialization/deserialization
+ * Saves a game to a location and restores from that location
  */
 object GameStateUtils {
     /**
-     * @brief serialize a board
+     * @brief serialize a board / saves a board
      * @param currentBoard
      */
     @JvmStatic
@@ -50,7 +51,7 @@ object GameStateUtils {
     }
 
     /**
-     * @brief deserialize a board
+     * @brief deserialize a board / loads a board
      * @return board
      */
     @JvmStatic

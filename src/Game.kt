@@ -328,12 +328,12 @@ object GameUtils {
      * @param direction
      */
     @JvmStatic
-    fun move(game: PlayableGame, fromPosX: Int, fromPosY: Int, direction: Game.Direction, gameManager: GameManager) {
+    fun move(fromPosX: Int, fromPosY: Int, direction: Game.Direction, gameManager: GameManager) {
         when(direction) {
-            Game.Direction.EAST -> move(MoveEast(game, fromPosX, fromPosY), gameManager)
-            Game.Direction.WEST -> move(MoveWest(game, fromPosX, fromPosY), gameManager)
-            Game.Direction.NORTH -> move(MoveNorth(game, fromPosX, fromPosY), gameManager)
-            Game.Direction.SOUTH-> move(MoveSouth(game, fromPosX, fromPosY), gameManager)
+            Game.Direction.EAST -> move(MoveEast(gameManager.game, fromPosX, fromPosY), gameManager)
+            Game.Direction.WEST -> move(MoveWest(gameManager.game, fromPosX, fromPosY), gameManager)
+            Game.Direction.NORTH -> move(MoveNorth(gameManager.game, fromPosX, fromPosY), gameManager)
+            Game.Direction.SOUTH-> move(MoveSouth(gameManager.game, fromPosX, fromPosY), gameManager)
         }
     }
 }
