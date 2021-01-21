@@ -316,8 +316,8 @@ object GameUtils {
      * @param gameManager
      */
     @JvmStatic
-    private fun move(command: UndoableVisualCommand, gameManager: GameManager) {
-        gameManager.move(command)
+    private fun move(command: UndoableVisualCommand, moveManager: MoveManager) {
+        moveManager.execute(command)
     }
 
     /**
@@ -328,12 +328,12 @@ object GameUtils {
      * @param direction
      */
     @JvmStatic
-    fun move(gameManager: GameManager, fromPosX: Int, fromPosY: Int, direction: Game.Direction) {
+    fun move(game: PlayableGame, fromPosX: Int, fromPosY: Int, direction: Game.Direction, moveManager: MoveManager) {
         when(direction) {
-            Game.Direction.EAST -> move(MoveLeft(gameManager, fromPosX, fromPosY), gameManager)
-            Game.Direction.WEST -> move(MoveRight(gameManager, fromPosX, fromPosY), gameManager)
-            Game.Direction.NORTH -> move(MoveTop(gameManager, fromPosX, fromPosY), gameManager)
-            Game.Direction.SOUTH-> move(MoveBottom(gameManager, fromPosX, fromPosY), gameManager)
+            Game.Direction.EAST -> move(MoveLeft(game, fromPosX, fromPosY), moveManager)
+            Game.Direction.WEST -> move(MoveRight(game, fromPosX, fromPosY), moveManager)
+            Game.Direction.NORTH -> move(MoveTop(game, fromPosX, fromPosY), moveManager)
+            Game.Direction.SOUTH-> move(MoveBottom(game, fromPosX, fromPosY), moveManager)
         }
     }
 }

@@ -1,58 +1,61 @@
 /**
- * @brief move west
- */
-class MoveLeft(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    /// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board: Save the state, coudl also use Memento
-    val oldBoard = gameManager.board()!!.copy()
-
-    override fun execute() {
-        GameUtils.jump(gameManager.board()!!.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.EAST, gameManager.board()!!)
-    }
-
-    override fun undo() {
-        gameManager.board = oldBoard
-    }
-}
-
-/**
  * @brief move east
  */
-class MoveRight(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = gameManager.board()!!.copy()
+class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+    /// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board: Save the state, coudl also use Memento
+    val oldBoard = game.gameState!!.board.copy()
+
     override fun execute() {
-        GameUtils.jump(gameManager.board()!!.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.WEST, gameManager.board()!!)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.EAST, game.gameState!!.board)
     }
 
     override fun undo() {
-        gameManager.board = oldBoard
+        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 
 /**
- * @brief move north
+ * @brief move west
  */
-class MoveTop(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = gameManager.board()!!.copy()
+class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+    val oldBoard = game.gameState!!.board.copy()
+
     override fun execute() {
-        GameUtils.jump(gameManager.board()!!.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.NORTH, gameManager.board()!!)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.WEST, game.gameState!!.board)
     }
 
     override fun undo() {
-        gameManager.board = oldBoard
+        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 
 /**
  * @brief move south
  */
-class MoveBottom(val gameManager: GameManager, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = gameManager.board()!!.copy()
+class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+    val oldBoard = game.gameState!!.board.copy()
 
     override fun execute() {
-        GameUtils.jump(gameManager.board()!!.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.SOUTH, gameManager.board()!!)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.SOUTH, game.gameState!!.board)
     }
 
     override fun undo() {
-        gameManager.board = oldBoard
+        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
     }
 }
+
+/**
+ * @brief move north
+ */
+class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+    val oldBoard = game.gameState!!.board.copy()
+
+    override fun execute() {
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.NORTH, game.gameState!!.board)
+    }
+
+    override fun undo() {
+        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
+    }
+}
+
