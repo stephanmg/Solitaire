@@ -1,14 +1,6 @@
 /**
- * BoardTypes
- */
-enum class BoardType {
-    SQUARE,
-    EMPTY, 
-    CLASSIC
-}
-
-/**
  * @brief manages the moves and undoable commands
+ * Note: History of commands is not serialized. Shall we save this too?
  */
 class MoveManager(val game: PlayableGame) {
     /// Keep a list of performed moves and undoable commands
@@ -25,7 +17,7 @@ class MoveManager(val game: PlayableGame) {
     }
 
     /**
-     * @brief perform and valid undoable visual command
+     * @brief perform moves and valid undoable visual commands
      * @param command
      */
     public fun execute(command: UndoableVisualCommand) {
@@ -34,7 +26,7 @@ class MoveManager(val game: PlayableGame) {
     }
 
     /**
-     * @brief performs a move command explictly
+     * @brief perform a move command explictly
      * @param fromPosX
      * @param fromPosY
      * @param direction

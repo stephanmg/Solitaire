@@ -1,4 +1,14 @@
 import kotlinx.serialization.Serializable;
+
+/**
+ * BoardTypes
+ */
+enum class BoardType {
+    SQUARE,
+    EMPTY, 
+    CLASSIC
+}
+
 /**
  * @brief A representation of a game board
  * The game board consists out of pegs which may be empty or full or 
@@ -29,7 +39,7 @@ import kotlinx.serialization.Serializable;
  * |---------------------------------------|
  */
 @Serializable
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves:Int = 0) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves: Int = 0) {
     /**
      * @brief string representation of a board
      * @see Object.toString()

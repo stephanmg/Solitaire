@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox
  * @brief GUI
  * TODO: Add Javalin webinterface
  * TODO: Use TornadoFX instead of JavaFX
- * TODO: Adapt Solitaire to 3D
+ * TODO: Adapt the 2D Solitaire to 3D board
  */
 class GUI : Application() {
     private var canStillWin = true
