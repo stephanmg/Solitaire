@@ -16,11 +16,20 @@ data class GameState(val board: Board, val type: BoardType, val moves: Int);
  * @param type
  */
 class PlayableGame(val type: BoardType) {
+  // State of the current game
   var gameState: GameState? = null
+  // Reset the current game
+  val reset: Reset = Reset(this)
+
+   public fun reset() {
+     reset.execute()
+   }
 
   init {
     gameState = GameState(BoardFactory().board(type), type, 0)
   }
+
+
 }
 
 

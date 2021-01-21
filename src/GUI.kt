@@ -46,7 +46,7 @@ class GUI : Application() {
         var fromPosY: Int = -1
         val moveLabel = Label("Number of moves: 0")
         var validMoves = 0
-        var moveManager = MoveManager()
+        var gameManager = GameManager()
         var game = PlayableGame(BoardType.CLASSIC)
         val n = 1 /* classic board peg wins with 1: TODO encode into gameManager or board? */
 
@@ -79,7 +79,7 @@ class GUI : Application() {
                    // else check if peg can legally jump in the current board in given direction
                 } else if (GameUtils.canJump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, dir, game.gameState!!.board)) {
                     // i.) then do the jump in the board
-                    GameUtils.move(game, fromPosX, fromPosY, dir, moveManager)
+                    GameUtils.move(game, fromPosX, fromPosY, dir, gameManager)
 
                     // ii.) and draw the jump we made in the board's GUI as well
                     GUIUtils.draw(gridPane, game)
@@ -166,18 +166,18 @@ class GUI : Application() {
 
             when (text) {
                 "Save" -> {
-                    moveManager.save(game)
+                    gameManager.save(game)
                 }
                 "Load" -> {
-                    moveManager.load(game) // TODO: return true if same board type, or false if need to adapt board in GUI otherwise null exceptions
+                    gameManager.load(game) // TODO: return true if same board type, or false if need to adapt board in GUI otherwise null exceptions
                     reinit()
                 }
                 "Reset" -> {
-                    moveManager.reset(game)
+                    gameManager.reset(game)
                     reinit()
                 }
                 "Undo" -> {
-                    moveManager.undo()
+                    gameManager.undo()
                     reinit()
                 }
             }

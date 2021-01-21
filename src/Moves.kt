@@ -59,3 +59,8 @@ class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
     }
 }
 
+class Reset(var game: PlayableGame) : Command {
+    override fun execute() {
+        game.gameState = GameState(BoardFactory().board(game.gameState!!.type), game.gameState!!.type, game.gameState!!.moves)
+    }
+}
