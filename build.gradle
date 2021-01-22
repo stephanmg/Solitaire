@@ -26,16 +26,15 @@ jar {
 /// Fat JAR
 task bundle(type: Jar) {
     archiveClassifier = 'bundled'
-
     from sourceSets.main.output
-
     dependsOn configurations.runtimeClasspath
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE /* required to suppress false-positive warning */
 
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
 
-    from ('src/test/resources') {
+    from ('src/images/resources') {
         include '*png'
     }
 
