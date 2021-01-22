@@ -1,6 +1,6 @@
 /**
  * @brief manages the moves and undoable commands
- * Note: History of commands is not serialized. Shall we save this too?
+ * Note: History of commands is not serialized. Shall we serialize this to allow replay?
  */
 class MoveManager(val game: PlayableGame) {
     /// Keep a list of performed moves and undoable commands
@@ -9,7 +9,7 @@ class MoveManager(val game: PlayableGame) {
     /**
      * @brief undo a move in the game
      */
-    public fun undo() {
+    public fun undo(): Unit {
         if (history.count() > 0) {
            history.last().undo()
            history.removeLast()
@@ -20,7 +20,7 @@ class MoveManager(val game: PlayableGame) {
      * @brief perform moves and valid undoable visual commands
      * @param command
      */
-    public fun execute(command: UndoableVisualCommand) {
+    public fun execute(command: UndoableVisualCommand): Unit {
         history.add(command)
         command.execute()
     }
@@ -31,7 +31,7 @@ class MoveManager(val game: PlayableGame) {
      * @param fromPosY
      * @param direction
      */
-    public fun move(fromPosX: Int, fromPosY: Int, direction: Direction) {
+    public fun move(fromPosX: Int, fromPosY: Int, direction: Direction): Unit {
         GameUtils.move(fromPosX, fromPosY, direction, this)
     }
 }
