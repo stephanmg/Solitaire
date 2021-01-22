@@ -217,7 +217,7 @@ object GameUtils {
      * @param gameManager
      */
     @JvmStatic
-    private fun move(command: UndoableVisualCommand, moveManager: MoveManager) {
+    private fun move(command: UndoableVisualCommand, moveManager: MoveManager): Unit {
         moveManager.execute(command)
     }
 
@@ -229,7 +229,7 @@ object GameUtils {
      * @param direction
      */
     @JvmStatic
-    fun move(fromPosX: Int, fromPosY: Int, direction: Direction, moveManager: MoveManager) {
+    fun move(fromPosX: Int, fromPosY: Int, direction: Direction, moveManager: MoveManager): Unit {
         when(direction) {
             Direction.EAST -> move(MoveEast(moveManager.game, fromPosX, fromPosY), moveManager)
             Direction.WEST -> move(MoveWest(moveManager.game, fromPosX, fromPosY), moveManager)

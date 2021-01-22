@@ -5,5 +5,5 @@ interface Command {
     /**
      * @brief execute a given command
      */
-    fun execute()
+    fun execute(): Unit
 }

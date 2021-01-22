@@ -1,7 +1,6 @@
 /**
  * @brief controls the game (and thus moves and commands)
  * Note: !!! Currently only one game is allowed to be saved and restored !!!
- * Note: Should GameController be a singleton? Probably not.
  */
 class GameController(val game: PlayableGame) {
     /// Manages undoable commands
@@ -36,7 +35,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosX
      * @param fromPosY
      */
-    public fun moveWest(fromPosX: Int, fromPosY: Int) {
+    public fun moveWest(fromPosX: Int, fromPosY: Int): Unit {
         moveManager.move(fromPosX, fromPosY, Direction.WEST)
     }
 
@@ -45,7 +44,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosX
      * @param fromPosY
      */
-    public fun moveEast(fromPosX: Int, fromPosY: Int) {
+    public fun moveEast(fromPosX: Int, fromPosY: Int): Unit {
         moveManager.move(fromPosX, fromPosY, Direction.EAST)
     }
 
@@ -54,7 +53,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosX
      * @param fromPosY
      */
-    public fun moveSouth(fromPosX: Int, fromPosY: Int) {
+    public fun moveSouth(fromPosX: Int, fromPosY: Int): Unit {
         moveManager.move(fromPosX, fromPosY, Direction.SOUTH)
     }
 
@@ -63,14 +62,14 @@ class GameController(val game: PlayableGame) {
      * @param fromPosX
      * @param fromPosY
      */
-    public fun moveNorth(fromPosX: Int, fromPosY: Int) {
+    public fun moveNorth(fromPosX: Int, fromPosY: Int): Unit {
         moveManager.move(fromPosX, fromPosY, Direction.NORTH)
     }
 
     /**
      * @brief undo a visual undoable move
      */
-    public fun undo() {
+    public fun undo(): Unit {
         moveManager.undo()
     }
 }
