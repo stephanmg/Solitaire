@@ -1,6 +1,6 @@
 # Peg solitaire
 
-First of all, this is an explorative respectively recreational programming project to gain more experience with Kotlin.
+First of all, this is an explorative respectively recreational programming project to gain more experience with Kotlin. You can just go ahead and download the compiled executable and deployed to Bintray to start playing the classic Peg solitaire game. For the interest reader, see the introduction below and the upcoming features requested by current users.
 
 ## Introduction
 Peg Solitaire is a well-known single-player board game involving moving pegs between holes in the board. It is said to date back as far as to August 1687 and that Louis XIV or known as Louis the Great was a passionate player. Some sets use sophisticated marble or glass boards for pegs and indentations, others use wooden or plastic boards. In the UK or India it is also known under the synonyms Solitaire or Brainvita. As for the game play a valid move a peg needs to jump orthogonally over an adjacent peg into a hole two positions away which will remove the jumped peg. Depending on the board size and configuration multiple solutions, i.e. sequences of moves, may exist or not, and has attracted many recreational mathematicians and hobbyist around the world, see also game play and board configurations on [wikipedia](https://en.wikipedia.org/wiki/Peg_solitaire) and for a mathematical treatment of the game compare the website on [recmath](http://recmath.org/pegsolitaire) which contains a great deal of monographs and books.
@@ -29,4 +29,4 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 - https://github.com/edvin/tornadofx
 - https://github.com/tipsy/javalin
 - https://en.wikipedia.org/wiki/Peg_solitaire
-- http://recmath.org/pegsolitaire)
+- http://recmath.org/pegsolitaire
