@@ -7,7 +7,8 @@ import javafx.application.Application
 class Solitaire {
     companion object {
         /**
-          * @brief main
+          * @brief entry point for main program
+          * @param args to the program
           */
         @JvmStatic
         fun main(args: Array<String>) {
@@ -23,7 +24,6 @@ class Solitaire {
 
             Application.launch(GUI::class.java, *args)
             /// TODO: Add GUI label to indicate if solution can still be reached or not (check with level based dfsSolve)
-            /// TODO: Fix/Add redo/undo operation?
             /// TODO: Add UI to let the computer play a game until the end (solve it) and/or add replay option
         }
     }

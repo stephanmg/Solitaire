@@ -4,7 +4,8 @@
  * @param fromPosX
  * @param fromPosY
  */
-/// TODO: copy() does not do a deep copy!!! so UNDO not possible refers to same board: Save the state, coudl also use Memento
+/// TODO: copy() does not do a deep copy, thus UNDO not possible since copied board refers actually
+/// to same board: Save the state of the game appropriately by deep copying will allow UNDO operation.
 class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
     val oldBoard = game.gameState!!.board.copy()
 
