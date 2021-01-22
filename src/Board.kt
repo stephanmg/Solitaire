@@ -1,21 +1,23 @@
 import kotlinx.serialization.Serializable;
 
 /**
- * BoardTypes
+ * @brief supported solitaire board types
+ * A square board, the classic board and an empty board
  */
 enum class BoardType {
-    SQUARE,
-    EMPTY, 
-    CLASSIC
+    SQUARE, /* SQUARE BOARD */
+    EMPTY, /* EMPTY BOARD */ 
+    CLASSIC /* CLASSIC BOARD */
 }
 
 /**
- * @brief A representation of a game board
- * The game board consists out of pegs which may be empty or full or 
- * undefined (not part of the board or boundary)
+ * @brief representation of the solitaire board
+ * The game board consists out of pegs and holes
+ * A peg is present (1), a hole is present (0)
+ * and we are outside the board boundary (-1)
  *
  * @param pegs building blocks of board
- * @param size dimensions of board
+ * @param size dimensions (x and y) of board
  * 
  * Layout:
  * |---------------------------------------|
@@ -39,7 +41,7 @@ enum class BoardType {
  * |---------------------------------------|
  */
 @Serializable
-data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, val moves: Int = 0) {
+data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val moves: Int = 0) {
     /**
      * @brief string representation of a board
      * @see Object.toString()
@@ -65,25 +67,29 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val size: Int = 0, v
      * @param pegs
      * @return deep-copied board as Board
      */
-    fun copy(pegs: MutableMap<Pair<Int, Int>, Peg> = this.pegs.toMutableMap()) = Board(pegs, this.size)
+    fun copy(pegs: MutableMap<Pair<Int, Int>, Peg> = this.pegs.toMutableMap()) = Board(pegs)
 }
 
 /**
- * @brief A board factory
- * Creates empty and square boards
+ * @brief a factory to create solitaire boards
  */
-class BoardFactory {
-    public fun empty(size: Int=0): Board {
-        return Board(mutableMapOf(), size)
+object BoardFactory {
+    /**
+     * @brief create an empty board
+     * @return empty board
+     */
+    @JvmStatic
+    fun empty(): Board {
+        return Board(mutableMapOf())
     }
 
     /**
-     * @brief creates a square board
-     * The board consists out of n^2-1 pegs and the center peg is removed in the board
+     * @brief create a square 80-hole board
      * @param n size of board
-     * @return board
+     * @return square board
      */
-    fun square(n: Int): Board {
+    @JvmStatic
+    fun square(n: Int=9): Board {
         val board = empty()
         for (i in 0 until n) {
             for (j in 0 until n) {
@@ -99,8 +105,10 @@ class BoardFactory {
     }
 
     /**
-     * @brief classic 33 board
+     * @brief create classic 33-holes board
+     * @return classic board
      */
+    @JvmStatic
     public fun classic(): Board {
         val board = empty()
         for (i in 0 until 9) {
@@ -123,16 +131,19 @@ class BoardFactory {
     }
 
     /**
-     * @brief creates a board with a given type
+     * @brief create a board with a given board type
+     * @see BoardType
      * @param i max size in x 
      * @param j max size in y
      * @param size total number of pegs
      * @param type board's layout: square or classic
+     * @return board
      */
+    @JvmStatic
     fun board(type: BoardType): Board {
         return when (type) {
-            BoardType.SQUARE -> { square(5) }
-            BoardType.CLASSIC -> { classic() }
+            BoardType.SQUARE -> square() 
+            BoardType.CLASSIC -> classic() 
             else -> empty()
         } 
     }

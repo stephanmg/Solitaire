@@ -17,7 +17,7 @@ class Solitaire {
             } else {
                 val n: Int = args[0].toInt()
                 require(n > 0) { println("Creating board of size $n not sensible, n > 0 expected.") }
-                val board = BoardFactory().square(n)
+                val board = BoardFactory.square()
                 println(board)
             }
 

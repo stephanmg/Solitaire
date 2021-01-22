@@ -29,7 +29,7 @@ class PlayableGame(val type: BoardType) {
   }
 
   init {
-    gameState = GameState(BoardFactory().board(type), type, 0)
+    gameState = GameState(BoardFactory.board(type), type, 0)
   }
 }
 

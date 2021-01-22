@@ -337,13 +337,3 @@ object GameUtils {
         }
     }
 }
-
-/**
- * @brief main
- * Play a test game
- */
-fun main() {
-    /// Square board of n=5 has solution with 5 pegs left, probably a coincidence
-    val game = Game()
-    game.solveDfs(BoardFactory().square(5))
-}
