@@ -52,7 +52,7 @@ class GUI : Application() {
             } else {
                 /// TODO: Re-add the label
                 // canStillWin = Game().solveDfs(currentBoard)
-                val jumpToX = fromPosX - i
+                val jumpToX: Int = fromPosX - i
                 val jumpToY: Int = fromPosY - j
                 nextBtn = btn
                 val dir: Direction? = GameUtils.getJumpDirection(jumpToX, jumpToY)
@@ -66,7 +66,7 @@ class GUI : Application() {
                     // i.) then do the jump in the board
                     gameController.moveManager.move(fromPosX, fromPosY, dir)
 
-                    // ii.) and draw the jump we made in the board's GUI as well
+                    // ii.) and draw the jump we made in the board's GUI as well (update game)
                     GUIUtils.draw(gridPane, gameController.game)
                     curBtn!!.graphic = null;
                     nextBtn!!.graphic = GUIUtils.createPegImage()
@@ -185,7 +185,6 @@ class GUI : Application() {
         menuGame.getItems().add(MenuItem("Load"))
         menuGame.getItems().add(MenuItem("Reset"))
         menuGame.getItems().add(MenuItem("Undo"))
-        menuGame.getItems().add(MenuItem("Redo"))
 
         menuBoards.getItems().add(MenuItem("Classic"))
         menuBoards.getItems().add(MenuItem("Square"))

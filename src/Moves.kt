@@ -4,15 +4,14 @@
  * @param fromPosX
  * @param fromPosY
  */
-/// TODO: copy() does not do a deep copy, thus UNDO not possible since copied board refers actually
-/// to same board: Save the state of the game appropriately by deep copying will allow UNDO operation.
 class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = game.gameState!!.board.copy()
+    var oldBoard: Board? = null
 
     /**
      * @see Command.execute()
      */
     override fun execute() {
+        oldBoard = game.gameState!!.board.copy()
         GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.EAST, game.gameState!!.board)
     }
 
@@ -20,7 +19,8 @@ class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
      * @see UndoableVisualCommand.undo()
      */
     override fun undo() {
-        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
+        if (oldBoard != null)
+           game.gameState = GameState(oldBoard!!, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 
@@ -31,12 +31,13 @@ class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
  * @param fromPosY
  */
 class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = game.gameState!!.board.copy()
+    var oldBoard: Board? = null
 
     /**
      * @see Command.execute()
      */
     override fun execute() {
+        oldBoard = game.gameState!!.board.copy()
         GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.WEST, game.gameState!!.board)
     }
 
@@ -44,7 +45,8 @@ class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
      * @see UndoableVisualCommand.undo()
      */
     override fun undo() {
-        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
+        if (oldBoard != null)
+            game.gameState = GameState(oldBoard!!, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 
@@ -55,12 +57,13 @@ class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
  * @param fromPosY
  */
 class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = game.gameState!!.board.copy()
+    var oldBoard: Board? = null
 
     /**
      * @see Command.execute()
      */
     override fun execute() {
+        oldBoard = game.gameState!!.board.copy()
         GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.SOUTH, game.gameState!!.board)
     }
 
@@ -68,7 +71,8 @@ class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
      * @see UndoableVisualCommand.undo()
      */
     override fun undo() {
-        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
+        if (oldBoard != null)
+            game.gameState = GameState(oldBoard!!, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 
@@ -79,12 +83,13 @@ class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
  * @param fromPosY
  */
 class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
-    val oldBoard = game.gameState!!.board.copy()
+    var oldBoard: Board? = null
 
     /**
      * @see Command.execute()
      */
     override fun execute() {
+        oldBoard = game.gameState!!.board.copy()
         GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.NORTH, game.gameState!!.board)
     }
 
@@ -92,7 +97,8 @@ class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
      * @see UndoableVisualCommand.undo()
      */
     override fun undo() {
-        game.gameState = GameState(game.gameState!!.board, game.gameState!!.type, game.gameState!!.moves)
+        if (oldBoard != null)
+        game.gameState = GameState(oldBoard!!, game.gameState!!.type, game.gameState!!.moves)
     }
 }
 

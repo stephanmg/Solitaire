@@ -1,6 +1,5 @@
 /**
  * @brief manages the moves and undoable commands
- * Note: History of commands is not serialized. Shall we serialize this to allow replay?
  */
 class MoveManager(val game: PlayableGame) {
     /// Keep a list of performed moves and undoable commands

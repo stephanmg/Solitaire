@@ -63,11 +63,17 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val moves: Int = 0) 
     }
 
     /**
-     * @brief deep copy
+     * @brief deep copy of a board
      * @param pegs
      * @return deep-copied board as Board
      */
-    fun copy(pegs: MutableMap<Pair<Int, Int>, Peg> = this.pegs.toMutableMap()) = Board(pegs)
+    fun copy(): Board {
+        val pegs: MutableMap<Pair<Int, Int>, Peg> = mutableMapOf()
+        for (peg in this.pegs) {
+           pegs.put(peg.key.copy(), peg.value.copy())
+        }
+        return Board(pegs, this.moves)
+    }
 }
 
 /**

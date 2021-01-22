@@ -8,12 +8,14 @@ Solutions are calculated with a level-based DFS. Project is bundled and deployed
 [![Download](https://api.bintray.com/packages/stephanmg/Solitaire/0.0.1-nightly/images/download.svg) ](https://bintray.com/stephanmg/Solitaire/0.0.1-nightly/_latestVersion)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-magenta.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## TODOs
-- GUI corrections
+## Features requests:
+- Make look GUI more pretty
 - Adapt 2D solitaire to 3D solitaire
 - Add KDoc and unit testing
 - Exchange JavaFX with TornadoFX
 - Add a Javalin webinterface and console UI to play solitaire games
+- Serialize history of commands to allow for a replay of a game
+- Support multiple game states
 
 ## Useful links
 - https://github.com/openjfx/javafx-gradle-plugin

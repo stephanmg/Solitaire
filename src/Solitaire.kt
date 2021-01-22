@@ -21,10 +21,8 @@ class Solitaire {
                 val board = BoardFactory.square()
                 println(board)
             }
-
+            /// Finally lauch the application if not in terminal/console mode
             Application.launch(GUI::class.java, *args)
-            /// TODO: Add GUI label to indicate if solution can still be reached or not (check with level based dfsSolve)
-            /// TODO: Add UI to let the computer play a game until the end (solve it) and/or add replay option
         }
     }
 }
