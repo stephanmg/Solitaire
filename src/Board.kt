@@ -132,11 +132,8 @@ object BoardFactory {
 
     /**
      * @brief create a board with a given board type
+     * @param type of the board to be created
      * @see BoardType
-     * @param i max size in x 
-     * @param j max size in y
-     * @param size total number of pegs
-     * @param type board's layout: square or classic
      * @return board
      */
     @JvmStatic
