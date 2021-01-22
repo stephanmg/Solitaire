@@ -72,4 +72,11 @@ class GameController(val game: PlayableGame) {
     public fun undo(): Unit {
         moveManager.undo()
     }
+
+    /**
+     * @brief redo a visual undoable move
+     */
+    public fun redo(): Unit {
+        moveManager.redo()
+    }
 }

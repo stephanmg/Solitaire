@@ -171,6 +171,10 @@ class GUI : Application() {
                     gameController.undo()
                     reinit()
                 }
+                "Redo" -> {
+                    gameController.redo()
+                    reinit()
+                }
             }
         }
 
@@ -185,6 +189,7 @@ class GUI : Application() {
         menuGame.getItems().add(MenuItem("Load"))
         menuGame.getItems().add(MenuItem("Reset"))
         menuGame.getItems().add(MenuItem("Undo"))
+        menuGame.getItems().add(MenuItem("Redo"))
 
         menuBoards.getItems().add(MenuItem("Classic"))
         menuBoards.getItems().add(MenuItem("Square"))
