@@ -5,6 +5,7 @@ First of all, this is an explorative respectively recreational programming proje
 Now using Kotlin and JavaFX/TorandoFX a 2D peg solitaire has been implemented, see code below and compiled binaries on Bintray (fat jar). For upcoming features, see the list below and feel free to open an Issue for additional features. 
 
 Solutions are calculated by a level-based DFS which indicate to the user if a solution can still be reached or the game is lost. The user can undo moves and redo moves and save and load the game state. Two boards are available, the classic 33-hole board also known as English board and a 9 by 9 square board. Feel free to feature request another type of board.
+---
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1895090a5fe4f009f7835d0f7d5e1ca)](https://app.codacy.com/manual/stephan_5/Solitaire?utm_source=github.com&utm_medium=referral&utm_content=stephanmg/Solitaire&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.org/stephanmg/Solitaire.svg?branch=master)](https://travis-ci.org/stephanmg/Solitaire)
