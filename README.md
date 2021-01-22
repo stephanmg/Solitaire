@@ -23,3 +23,5 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 - https://github.com/openjfx/javafx-gradle-plugin
 - https://github.com/edvin/tornadofx
 - https://github.com/tipsy/javalin
+- https://en.wikipedia.org/wiki/Peg_solitaire
+- http://recmath.org/pegsolitaire)
