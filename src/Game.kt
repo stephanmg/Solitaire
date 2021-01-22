@@ -242,7 +242,7 @@ object GameUtils {
      * @param gameManager
      */
     @JvmStatic
-    private fun move(command: UndoableVisualCommand, moveManager: MoveManager): Unit {
+    private fun move(command: UndoableCommand, moveManager: MoveManager): Unit {
         moveManager.execute(command)
     }
 

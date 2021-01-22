@@ -4,7 +4,7 @@
  * @param fromPosX
  * @param fromPosY
  */
-class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableCommand {
     var oldBoard: Board? = null
 
     /**
@@ -16,7 +16,7 @@ class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
     }
 
     /**
-     * @see UndoableVisualCommand.undo()
+     * @see UndoableCommand.undo()
      */
     override fun undo() {
         if (oldBoard != null)
@@ -30,7 +30,7 @@ class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
  * @param fromPosX
  * @param fromPosY
  */
-class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableCommand {
     var oldBoard: Board? = null
 
     /**
@@ -42,7 +42,7 @@ class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
     }
 
     /**
-     * @see UndoableVisualCommand.undo()
+     * @see UndoableCommand.undo()
      */
     override fun undo() {
         if (oldBoard != null)
@@ -56,7 +56,7 @@ class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
  * @param fromPosX
  * @param fromPosY
  */
-class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableCommand {
     var oldBoard: Board? = null
 
     /**
@@ -68,7 +68,7 @@ class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
     }
 
     /**
-     * @see UndoableVisualCommand.undo()
+     * @see UndoableCommand.undo()
      */
     override fun undo() {
         if (oldBoard != null)
@@ -82,7 +82,7 @@ class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
  * @param fromPosX
  * @param fromPosY
  */
-class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableVisualCommand {
+class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : UndoableCommand {
     var oldBoard: Board? = null
 
     /**
@@ -94,7 +94,7 @@ class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
     }
 
     /**
-     * @see UndoableVisualCommand.undo()
+     * @see UndoableCommand.undo()
      */
     override fun undo() {
         if (oldBoard != null)

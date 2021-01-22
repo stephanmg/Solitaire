@@ -3,8 +3,8 @@
  */
 class MoveManager(val game: PlayableGame) {
     /// Keep a list of performed moves and undoable commands
-    val history = mutableListOf<UndoableVisualCommand>()
-    val redoHistory = mutableListOf<UndoableVisualCommand>()
+    val history = mutableListOf<UndoableCommand>()
+    val redoHistory = mutableListOf<UndoableCommand>()
     
     /**
      * @brief undo a move in the game
@@ -32,7 +32,7 @@ class MoveManager(val game: PlayableGame) {
      * @brief perform moves and valid undoable visual commands
      * @param command
      */
-    public fun execute(command: UndoableVisualCommand): Unit {
+    public fun execute(command: UndoableCommand): Unit {
         history.add(command)
         command.execute()
     }

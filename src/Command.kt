@@ -1,5 +1,6 @@
 /**
- * @brief command interface
+ * @brief Command interface
+ * All commands implementing this interface are deemed executable
  */
 interface Command {
     /**
