@@ -6,7 +6,7 @@ class MoveEast(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
     val oldBoard = game.gameState!!.board.copy()
 
     override fun execute() {
-        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.EAST, game.gameState!!.board)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.EAST, game.gameState!!.board)
     }
 
     override fun undo() {
@@ -21,7 +21,7 @@ class MoveWest(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : U
     val oldBoard = game.gameState!!.board.copy()
 
     override fun execute() {
-        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.WEST, game.gameState!!.board)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.WEST, game.gameState!!.board)
     }
 
     override fun undo() {
@@ -36,7 +36,7 @@ class MoveSouth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
     val oldBoard = game.gameState!!.board.copy()
 
     override fun execute() {
-        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.SOUTH, game.gameState!!.board)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.SOUTH, game.gameState!!.board)
     }
 
     override fun undo() {
@@ -51,7 +51,7 @@ class MoveNorth(var game: PlayableGame, val fromPosX: Int, val fromPosY: Int) : 
     val oldBoard = game.gameState!!.board.copy()
 
     override fun execute() {
-        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Game.Direction.NORTH, game.gameState!!.board)
+        GameUtils.jump(game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, Direction.NORTH, game.gameState!!.board)
     }
 
     override fun undo() {

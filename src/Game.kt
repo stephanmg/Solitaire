@@ -1,162 +1,71 @@
-import java.util.*
+import java.util.LinkedList
 
 /**
- * Game
+  * @brief direction a peg can jump to
+  * Legal jump directions are: NORTH, SOUTH, EAST or WEST
+  */
+enum class Direction {
+   NORTH, /* Jump peg to NORTH */
+   SOUTH, /* Jump peg to SOUTH */
+   WEST, /* Jump peg to WEST */
+   EAST /* Jump peg to EAST */
+}
+
+/**
+ * @brief Game solver 
  *
  * This will be used to solve the Solitaire problem with a DFS approach and provide an UI
  */
-class Game {
+class GameSolver {
     /**
-     * Legal jump directions are: NORTH, SOUTH, EAST or WEST
-     */
-    enum class Direction {
-        NORTH,
-        SOUTH,
-        WEST,
-        EAST
-    }
-
-    /**
-     * @brief Node representing a board in our queue
+     * @brief node represents one board for the level-wise DFS solve
+     * @param board 
      */
     private data class Node(var board: Board?=null)
 
     /**
-     * @brief Play interactively
-     *
-     * Notes: Let a user play (Maybe frontend in React?) and invoke dfs_solve each time to
-     * indicate if solution still possible or if the user has lost the game already
-     * @param peg start peg
+     * @brief decide what is the winning state for the supported board types
+     * @param type of board
+     * @return number of mininum pegs to win
      */
-    fun play(peg: Peg) {
-        val lost = false
-        while (!lost) {
-            /// TODO: Implement. Ask for user input, then jump accordingly
+    private fun minPegs(type: BoardType): Int {
+        return when (type) {
+            BoardType.SQUARE -> 5
+            BoardType.CLASSIC -> 1
+            else -> 0
         }
     }
 
     /**
-     * @brief 
-     * 
-     * @param peg
-     * @param direction
+     * @brief DFS solve of the peg board
+     * The method will find one of the possible solutions via a DFS solve
      * @param currentBoard
-     */
-    private fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
-        val pegs = currentBoard.pegs
-        val i = peg.i
-        val j = peg.j
-
-        /**
-         * @brief check if a peg can jump in current board configuration
-         * @param x
-         * @param y
-         * @return true if can jump otherwise false
-         */
-        fun jumpable(x: Int, y:Int): Boolean {
-            /// NOT PART OF THE BOARD (Should not happen actually but who knows)
-            if (pegs[Pair(i+2*x, j+2*y)] == null) {
-                return false
-            } else  {
-                /// BOUNDARY
-                if (pegs[Pair(i+2*x, j+2*y)]!!.value == PegType.BOUNDARY) { 
-                    return false
-                }
-                /// LEGAL JUMP 
-                if ((pegs[Pair(i, j)]!!.value == PegType.FULL) &&
-                    (pegs[Pair(i + x, j + y)]!!.value == PegType.FULL) &&
-                    (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == PegType.EMPTY)) {
-                    println("jumps to: " + (i+2*x) + ", " + (j+2*y))
-                    println("value at this pos: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value)
-                    println("\n")
-                    return true
-                }
-                return false
-            }
-        }
-
-        /// Check all directions: EAST, NORTH, SOUTH and WEST
-        return when (direction) {
-            Direction.EAST -> jumpable(1, 0) // if (onBoundary(i, j)) false else jumpable(1, 0)
-            Direction.NORTH -> jumpable(0, 1) // if (onBoundary(i, j)) false else jumpable(0, 1)
-            Direction.SOUTH -> jumpable(0, -1) // if (onBoundary(i, j)) false else jumpable(0, -1)
-            Direction.WEST -> jumpable(-1, 0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
-        }
-    }
-
-    /**
-     * @brief performs the jump and returns am modified board
-     * @param peg
-     * @param direction
-     * @param currentBoard
-     */
-    private fun doJump(peg: Peg, direction: Direction, currentBoard: Board): Board {
-        val move: (Peg, Int, Int) -> Unit =
-             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = PegType.EMPTY
-                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = PegType.EMPTY
-                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = PegType.FULL }
-
-        when (direction) {
-            Direction.EAST -> move(peg, 1, 0)
-            Direction.NORTH -> move(peg, 0, 1)
-            Direction.SOUTH -> move(peg, 0, -1)
-            Direction.WEST -> move(peg, -1, 0)
-        }
-
-        return currentBoard
-    }
-
-    /**
-     * @brief jump helper
-     * Helper method to perform check and then jump if possible
-     * @param peg
-     * @param direction
-     */
-    private fun jump(peg: Peg, direction: Direction, board: Board): Board? {
-        if (canJump(peg, direction, board)) {
-            return doJump(peg, direction, board)
-        }
-        return null
-    }
-
-    /**
-     * @brief testJump
-     * Little test function for jumpable
-     */
-    fun testJump(currentBoard: Board) {
-        for (peg in currentBoard.pegs.values) {
-            enumValues<Direction>().forEach {
-                canJump(peg, it, currentBoard)
-            }
-        }
-    }
-
-    /**
-     * @brief DFS solve
-     * Finds some solution or all solutions if solution is feasible
-     * @param currentBoard
-     * Will be used during interactive game play
-     * TODO: How do we now if a solution was reached? (Hardcode for known boards or until level-based DFS stuck)
      */
     fun solveDfs(currentBoard: Board): Boolean {
-        val queue: LinkedList<Node> = LinkedList()
+        // number of pegs for winning
+        val minPegs = minPegs(if (currentBoard.numPegs() == 80) BoardType.SQUARE else BoardType.CLASSIC)
+
         // initial board
+        val queue: LinkedList<Node> = LinkedList()
         queue.add(Node(currentBoard.copy()))
 
+        // no solution found so far
         var numSolutionsSoFar = 0
         println("Starting DFS search...")
+
+        // try to find a solution via level-wise DFS of board states
         while (!queue.isEmpty()) {
             val n = queue.poll()
-            println("Current node: $n")
-            if (n.board!!.numPegs() == 5) {
+            println("Current node to be inspected: $n")
+            if (n.board!!.numPegs() == minPegs) {
                 numSolutionsSoFar++
-                println("Found solution #$numSolutionsSoFar")
+                println("Found #$numSolutionsSoFar solutions so far...")
             } else {
                 for (peg in n.board!!.pegs.values) {
                     enumValues<Direction>().forEach {
-                        if (canJump(peg, it, n.board!!)) {
+                        if (GameUtils.canJump(peg, it, n.board!!)) {
                             val b: Board = n.board!!.copy()
-                            queue.add(Node(jump(peg, it, b)))
+                            queue.add(Node(GameUtils.jump(peg, it, b)))
                         }
                     }
                 }
@@ -164,10 +73,10 @@ class Game {
         }
         // Check if we found any solution at all
         if (numSolutionsSoFar == 0) {
-            println("Queue empty and no solution found so far! No solution exists?")
+            println("DFS queue empty and still no solution found so far! Do not solutions exist?")
             return false
         } else {
-            println("We found #$numSolutionsSoFar ways (Sequence of boards/jumps) to solve the problem")
+            println("We found #$numSolutionsSoFar ways (Sequence of boards states respectively moves) to solve the current board")
             return true
         }
     }
@@ -178,88 +87,77 @@ class Game {
  */
 object GameUtils {
     /**
-     * @brief check if peg can jump
+     * @brief check if a peg can jump in current board
      * @param peg
      * @param direction
      * @param currentBoard
+     * @return true if peg can jump and false otherwise
      */
     @JvmStatic
-    fun canJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Boolean {
+    fun canJump(peg: Peg, direction: Direction, currentBoard: Board): Boolean {
+        /// get pegs of board and jumping peg
         val pegs = currentBoard.pegs
         val i = peg.i
         val j = peg.j
 
         /**
          * @brief check if a peg can jump in current board configuration
-         * @param x
-         * @param y
-         * @return true if can jump otherwise false
-         * TODO: Make this check correct anyway, also if we disallow selecting boundary elements in the GUI this will not have any impact
+         * @param x position of the peg which tries to jump
+         * @param y position of the peg which tries to jump
+         * @return true if can jump in the board otherwise false
          */
-        /// NOT PART OF THE BOARD (Should not happen actually but who knows)
         fun jumpable(x: Int, y:Int): Boolean {
+            /// NOT DEFINED (the location we jump to is not defined in the board)
             if (pegs[Pair(i+2*x, j+2*y)] == null) {
-                println("peg null!")
+                // println("Peg we want to jump to is not defined")
+                return false
+            /// NOT DEFINED (the location we jump from is not defined in the board)
+            } else if (pegs[Pair(i, j)] == null) {
+                // println("Peg we want to jump from is not defined")
                 return false
             } else {
-                println(i+2*x)
-                println(i+2*y)
-                /// BOUNDARY
-                if (pegs[Pair(i+2*x, j+2*y)]!!.value == PegType.BOUNDARY) { // Boundary... TODO maybe should refactor board data structure
-                    /// This might be also okay, pegs is a dictionary, so we can build arbitrary boards, Pegs do not need
-                    /// to store their index, could also ask the dictionary for the key (Pair with indices) but this is slower
-                    println("Peg (to position) on boundary!")
+                /// BOUNDARY (the location we jump from is not part of the board)
+                if (pegs[Pair(i, j)]!!.value == PegType.BOUNDARY) {
+                    // println("Peg (from position) on boundary!")
                     return false
                 }
 
-                /* 
-                /// Note: The boundary is everything outside the board TODO: is this correct
-                if (pegs[Pair(i, j)]!!.value == -1) {
-                    println("Peg (from position) on boundary!")
-                    return false;
-                }
-                */
                 /// LEGAL JUMP
                 if ((pegs[Pair(i, j)]!!.value == PegType.FULL) &&
                     (pegs[Pair(i + x, j + y)]!!.value == PegType.FULL) &&
                     (pegs[Pair(i + 2 * x, j + 2 * y)]!!.value == PegType.EMPTY)) {
-                    println("jumps to: " + (i+2*x) + ", " + (j+2*y))
-                    println("value at this pos: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value)
-                    println("\n")
+                    // println("Peg jumps to: " + (i+2*x) + ", " + (j+2*y) + " and value at target position: " + pegs[Pair(i + 2 * x, j + 2 * y)]!!.value )
                     return true
                 }
-                println("Here!")
-                println(x)
-                println(y)
                 return false
             }
         }
 
         /// Check all directions: EAST, NORTH, SOUTH and WEST
         return when (direction) {
-            Game.Direction.EAST -> jumpable(-1, 0) // if (onBoundary(i, j)) false else jumpable(1, 0)
-            Game.Direction.NORTH -> jumpable(0, 1) // if (onBoundary(i, j)) false else jumpable(0, 1)
-            Game.Direction.SOUTH -> jumpable(0, -1) // if (onBoundary(i, j)) false else jumpable(0, -1)
-            Game.Direction.WEST -> jumpable(1, 0) // if (onBoundary(i, j)) false else jumpable(-1, 0)
+            Direction.EAST  -> jumpable(-1, 0) 
+            Direction.NORTH -> jumpable(0, 1) 
+            Direction.SOUTH -> jumpable(0, -1) 
+            Direction.WEST  -> jumpable(1, 0) 
         }
     }
 
     /**
      * @brief
-     * @param peg
+     * @param currentPeg
      * @param currentBoard
      */
-    private fun doJump(peg: Peg, direction: Game.Direction, currentBoard: Board): Board {
-        val move: (Peg, Int, Int) -> Unit =
+    private fun doJump(currentPeg: Peg, direction: Direction, currentBoard: Board): Board {
+        val jump: (Peg, Int, Int) -> Unit =
             { peg, x, y -> currentBoard.pegs[Pair(peg.i+x,peg.j+y)]!!.value = PegType.EMPTY
                 currentBoard.pegs[Pair(peg.i,peg.j)]!!.value = PegType.EMPTY
                 currentBoard.pegs[Pair(peg.i+2*x,peg.j+2*y)]!!.value = PegType.FULL }
 
         when (direction) {
-            Game.Direction.EAST -> move(peg, -1, 0)
-            Game.Direction.NORTH -> move(peg, 0, 1)
-            Game.Direction.SOUTH -> move(peg, 0, -1)
-            Game.Direction.WEST -> move(peg, 1, 0)
+            Direction.EAST  -> jump(currentPeg, -1, 0)
+            Direction.NORTH -> jump(currentPeg, 0, 1)
+            Direction.SOUTH -> jump(currentPeg, 0, -1)
+            Direction.WEST  -> jump(currentPeg, 1, 0)
         }
 
         return currentBoard
@@ -268,11 +166,13 @@ object GameUtils {
     /**
      * @brief jump
      * Helper method to perform check and then jump if possible
-     * @param peg
-     * @param direction
+     * @param peg which will jump
+     * @param direction to jump to
+     * @param board state
+     * @param board configuration after the jump
      */
     @JvmStatic
-    fun jump(peg: Peg, direction: Game.Direction, board: Board): Board? {
+    fun jump(peg: Peg, direction: Direction, board: Board): Board? {
         if (canJump(peg, direction, board)) {
             return doJump(peg, direction, board)
         }
@@ -280,28 +180,29 @@ object GameUtils {
     }
 
     /**
-     * @brief get direction
-     * @param i
-     * @param j
+     * @brief get jump direction from peg position
+     * @param x coordinate
+     * @param y coordinate
      */
     @JvmStatic
-    fun getDirection(i: Int, j: Int): Game.Direction? {
-        return when(Pair(i, j)) {
-            Pair(2, 0)  -> Game.Direction.EAST
-            Pair(-2, 0) -> Game.Direction.WEST
-            Pair(0, -2)  -> Game.Direction.NORTH
-            Pair(0, 2) -> Game.Direction.SOUTH
+    fun getJumpDirection(x: Int, y: Int): Direction? {
+        return when(Pair(x, y)) {
+            Pair( 2, 0) -> Direction.EAST
+            Pair(-2, 0) -> Direction.WEST
+            Pair(0,-2)  -> Direction.NORTH
+            Pair(0, 2)  -> Direction.SOUTH
             else -> null
         }
     }
     /**
      * @brief check if game is over or not
      * @param currentBoard game state
+     * @return true if game over and false if can still win
      */
     @JvmStatic
     fun checkGameOver(currentBoard: Board): Boolean {
         for (peg in currentBoard.pegs.values) {
-            enumValues<Game.Direction>().forEach {
+            enumValues<Direction>().forEach {
                 if(GameUtils.canJump(peg, it, currentBoard)) {
                     return false
                 }
@@ -311,7 +212,7 @@ object GameUtils {
     }
 
     /**
-     * @brief perform a move
+     * @brief perform an actual move in the board
      * @param command
      * @param gameManager
      */
@@ -323,17 +224,17 @@ object GameUtils {
     /**
      * @brief move
      * @param gameManager
-     * @param fromPosX,
+     * @param fromPosX
      * @param fromPosY
      * @param direction
      */
     @JvmStatic
-    fun move(fromPosX: Int, fromPosY: Int, direction: Game.Direction, moveManager: MoveManager) {
+    fun move(fromPosX: Int, fromPosY: Int, direction: Direction, moveManager: MoveManager) {
         when(direction) {
-            Game.Direction.EAST -> move(MoveEast(moveManager.game, fromPosX, fromPosY), moveManager)
-            Game.Direction.WEST -> move(MoveWest(moveManager.game, fromPosX, fromPosY), moveManager)
-            Game.Direction.NORTH -> move(MoveNorth(moveManager.game, fromPosX, fromPosY), moveManager)
-            Game.Direction.SOUTH-> move(MoveSouth(moveManager.game, fromPosX, fromPosY), moveManager)
+            Direction.EAST -> move(MoveEast(moveManager.game, fromPosX, fromPosY), moveManager)
+            Direction.WEST -> move(MoveWest(moveManager.game, fromPosX, fromPosY), moveManager)
+            Direction.NORTH -> move(MoveNorth(moveManager.game, fromPosX, fromPosY), moveManager)
+            Direction.SOUTH-> move(MoveSouth(moveManager.game, fromPosX, fromPosY), moveManager)
         }
     }
 }

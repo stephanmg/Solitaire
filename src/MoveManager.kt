@@ -31,7 +31,7 @@ class MoveManager(val game: PlayableGame) {
      * @param fromPosY
      * @param direction
      */
-    public fun move(fromPosX: Int, fromPosY: Int, direction: Game.Direction) {
+    public fun move(fromPosX: Int, fromPosY: Int, direction: Direction) {
         GameUtils.move(fromPosX, fromPosY, direction, this)
     }
 }

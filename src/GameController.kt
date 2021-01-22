@@ -37,7 +37,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosY
      */
     public fun moveWest(fromPosX: Int, fromPosY: Int) {
-        moveManager.move(fromPosX, fromPosY, Game.Direction.WEST)
+        moveManager.move(fromPosX, fromPosY, Direction.WEST)
     }
 
     /**
@@ -46,7 +46,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosY
      */
     public fun moveEast(fromPosX: Int, fromPosY: Int) {
-        moveManager.move(fromPosX, fromPosY, Game.Direction.EAST)
+        moveManager.move(fromPosX, fromPosY, Direction.EAST)
     }
 
     /**
@@ -55,7 +55,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosY
      */
     public fun moveSouth(fromPosX: Int, fromPosY: Int) {
-        moveManager.move(fromPosX, fromPosY, Game.Direction.SOUTH)
+        moveManager.move(fromPosX, fromPosY, Direction.SOUTH)
     }
 
     /**
@@ -64,7 +64,7 @@ class GameController(val game: PlayableGame) {
      * @param fromPosY
      */
     public fun moveNorth(fromPosX: Int, fromPosY: Int) {
-        moveManager.move(fromPosX, fromPosY, Game.Direction.NORTH)
+        moveManager.move(fromPosX, fromPosY, Direction.NORTH)
     }
 
     /**

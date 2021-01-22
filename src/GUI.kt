@@ -69,7 +69,7 @@ class GUI : Application() {
                 val jumpToX = fromPosX - i
                 val jumpToY: Int = fromPosY - j
                 nextBtn = btn
-                val dir: Game.Direction? = GameUtils.getDirection(jumpToX, jumpToY)
+                val dir: Direction? = GameUtils.getJumpDirection(jumpToX, jumpToY)
                 if (dir == null) {
                     /// if direction is invalid... do nothing
                     curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
