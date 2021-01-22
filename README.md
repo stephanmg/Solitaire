@@ -9,10 +9,11 @@ Solutions are calculated with a level-based DFS. Project is bundled and deployed
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-magenta.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## TODOs
-- Code TODOs
+- GUI corrections
 - Adapt 2D solitaire to 3D solitaire
-- Add KDoc
-- More unit tests
+- Add KDoc and unit testing
+- Exchange JavaFX with TornadoFX
+- Add a Javalin webinterface and console UI to play solitaire games
 
 ## Useful links
 - https://github.com/openjfx/javafx-gradle-plugin

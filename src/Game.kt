@@ -29,7 +29,7 @@ class GameSolver {
      * @return number of mininum pegs to win
      */
     private fun minPegs(type: BoardType): Int {
-        return when (type) {
+        return when(type) {
             BoardType.SQUARE -> 5
             BoardType.CLASSIC -> 1
             else -> 0
@@ -209,6 +209,31 @@ object GameUtils {
             }
         }
         return true
+    }
+
+    /**
+     * @brief utility to check if game has been won
+     * @param game
+     * @return true if won otherwise false
+     */
+    @JvmStatic
+    fun checkWon(game: PlayableGame): Boolean {
+        val gameState: GameState? = game.gameState
+        return checkWon(gameState!!.type, gameState.board.numPegs())
+    }
+
+    /**
+     * brief utility to check if game has been won
+     * @param type of board
+     * @param numPegs of pegs in board
+     */
+    @JvmStatic
+    private fun checkWon(type: BoardType, numPegs: Int): Boolean {
+        return when (type) {
+            BoardType.CLASSIC -> 1 == numPegs
+            BoardType.SQUARE -> 5 == numPegs
+            else -> true
+        }
     }
 
     /**

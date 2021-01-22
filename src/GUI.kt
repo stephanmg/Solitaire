@@ -1,29 +1,17 @@
 import javafx.application.Application
-import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.StackPane
+import javafx.scene.layout.*;
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.control.*
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
-import javafx.scene.control.MenuButton
-import javafx.scene.control.MenuBar
-import javafx.scene.control.Menu
-import javafx.scene.control.MenuItem
-import javafx.scene.layout.VBox
 
 /**
- * @brief GUI
- * TODO: Add Javalin webinterface
- * TODO: Use TornadoFX instead of JavaFX
- * TODO: Adapt the 2D Solitaire to 3D board
+ * @brief Set up the JavaFX GUI 
  */
 class GUI : Application() {
     private var canStillWin = true
@@ -47,14 +35,12 @@ class GUI : Application() {
         val moveLabel = Label("Number of moves: 0")
         var validMoves = 0
         var gameController = GameController(PlayableGame(BoardType.CLASSIC))
-        val n = 1 /* classic board peg wins with 1: TODO encode into gameController or board? */
 
         /**
          * @brief game logic 
          * @param btn
          * @param i
          * @param j
-         * Note could use some refactoring and improvements
          */
         val callback = fun(btn: Button, i: Int, j: Int) {
             btn.style = "-fx-background-color: beige; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -104,7 +90,7 @@ class GUI : Application() {
             moveLabel.text = "Number of moves: ${validMoves}"
 
             /// indicate loss or win
-            val won: Boolean = gameController.game.gameState!!.board.numPegs() == n
+            val won: Boolean = GameUtils.checkWon(gameController.game)
             val lost: Boolean = GameUtils.checkGameOver(gameController.game.gameState!!.board)
             if (won || lost) {
                 // set background
@@ -172,12 +158,11 @@ class GUI : Application() {
                     gameController.save()
                 }
                 "Load" -> {
-                    gameController.load() // TODO: return true if same board type, or false if need to adapt board in GUI otherwise null exceptions
+                    gameController.load() 
                     reinit()
                 }
                 "Reset" -> {
                     gameController.reset()
-                    /// reset number of moves
                     validMoves = 0
                     moveLabel.text = "Number of moves: 0"
                     reinit()
@@ -192,6 +177,7 @@ class GUI : Application() {
         val menuBar = MenuBar()
         val menuGame = Menu("Game")
         val menuBoards = Menu("Boards")
+        val menuConfigure = Menu("Configure")
         val menuHelp = Menu("Help")
         val menuAbout = Menu("About")
 
@@ -208,6 +194,7 @@ class GUI : Application() {
         menuBar.getMenus().add(menuBoards)
         menuBar.getMenus().add(menuHelp)
         menuBar.getMenus().add(menuAbout)
+        menuBar.getMenus().add(menuConfigure)
 
         menuGame.getItems().forEach() {
             val text = it.text
@@ -231,6 +218,10 @@ class GUI : Application() {
         val displayHelp = fun() {
             throw NotImplementedError("Display help not yet implemented!")
         }
+
+        val displayConfigure = fun() {
+            throw NotImplementedError("Configure game not yet implemented!")
+        }
  
         menuHelp.onAction = EventHandler() {
             displayHelp()
@@ -238,6 +229,10 @@ class GUI : Application() {
 
         menuAbout.onAction = EventHandler() {
             displayAbout()
+        }
+
+        menuConfigure.onAction = EventHandler() {
+            displayConfigure()
         }
 
         /// draw initial board and set layout
@@ -257,6 +252,7 @@ class GUI : Application() {
     /**
      * @brief draw a board
      * @param gridPane
+     * @param board 
      * @param callback - button callback to remove and add pegs to the gridPane
      */
     private fun drawBoard(gridPane: GridPane, board: Board, callback: (btn: Button, i: Int, j: Int) -> Unit) {
@@ -287,17 +283,24 @@ class GUI : Application() {
             else
                 btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
 
-
             gridPane.add(btn, j, i, 1, 1)
         }
 
+        /// for each peg we will check how it has to be drawn then add it to the grid pane
         board.pegs.forEach { 
             coordinates, peg -> draw(coordinates.first, coordinates.second, peg.value)
         }
     }
 }
-
+    /**
+     * @brief utility functions for drawing and managing the visual representation of the board
+     */
     object GUIUtils {
+    /**
+     * @brief draw a board from the 'active' game
+     * @param gridPane
+     * @param game
+     */
     @JvmStatic
     fun draw(gridPane: GridPane, game: PlayableGame) {
         for (peg in game.gameState!!.board.pegs) {
@@ -308,6 +311,11 @@ class GUI : Application() {
             }
         }
     }
+    /**
+     * @brief apply style sheets to the buttons a peg jumps from and to
+     * @param curBtn
+     * @param nextBtn
+     */
     @JvmStatic
     fun stylize(curBtn: Button?, nextBtn: Button?) {
         curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
@@ -315,7 +323,7 @@ class GUI : Application() {
     }
 
     /**
-     * @brief helper method to get a node from the grid pane
+     * @brief helper method to get a node from the grid pane corresponding to the index of the peg in the map
      * @param gridPane
      * @param col
      * @param row
@@ -330,6 +338,9 @@ class GUI : Application() {
         return null
     }
 
+    /**
+     * @brief create the peg image with reflections
+     */
     @JvmStatic
     fun createPegImage(): ImageView {
         val pegImage = GUI::class.java.getResource("/peg.png").toString()
