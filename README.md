@@ -17,12 +17,12 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-magenta.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Features requests (Ordered by increasing priority)
-- Make look GUI more pretty, exchange JavaFX with TornadoFX, change board material
-- Adapt 2D solitaire to 3D solitaire
-- Serialize history of commands to allow for a replay of a game
 - Add KDoc and unit testing
-- Add a Javalin webinterface and console UI to play solitaire games
-- Support multiple game states
+- Make look GUI more pretty, exchange JavaFX with TornadoFX, change board material
+- Serialize history of commands to allow for a replay of a game
+- Add a Javalin webinterface to play the game
+- Support multiple game states to be saved and loaded
+- Adapt 2D solitaire to 3D solitaire
 
 ## Useful links
 - https://github.com/openjfx/javafx-gradle-plugin
