@@ -12,5 +12,5 @@ title: Solitaire -
   
 |  Name|  Summary| 
 |---|---|
-| <a name="////PointingToDeclaration/"></a>[[root]]([root]/index.md) | 
+| <a name="////PointingToDeclaration/"></a>Solitaire([root]/index.md) | Main game package
 
