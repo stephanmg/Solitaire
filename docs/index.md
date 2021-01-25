@@ -1,11 +1,4 @@
----
-title: Solitaire documentation
----
-//[Solitaire](index.md)
-
-
-
-# Solitaire  
+# Solitaire  documentation
 
 
 ## Packages  
@@ -13,4 +6,3 @@ title: Solitaire documentation
 |  Name|  Summary| 
 |---|---|
 | <a name="////PointingToDeclaration/"></a>[[root]]([root]/index.md) | 
-
