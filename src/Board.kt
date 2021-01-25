@@ -20,6 +20,7 @@ enum class BoardType {
  * @param size dimensions (x and y) of board
  * 
  * Layout:
+ * ```
  * |---------------------------------------|
  * 
  * | 1 | -1 | -1 | 1 | 1 | 1 | -1 | -1 | -1|
@@ -57,6 +58,7 @@ enum class BoardType {
  * |-1 | -1 | -1 | 1 | 1 | 1 | -1 | -1 | -1|
  * 
  * |---------------------------------------|
+ * ```
  */
 @Serializable
 data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val moves: Int = 0) {
