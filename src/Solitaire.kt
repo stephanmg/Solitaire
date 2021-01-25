@@ -23,6 +23,7 @@ class Solitaire {
             }
             /// Finally lauch the application if not in terminal/console mode
             Application.launch(GUI::class.java, *args)
+            // ConsoleGame.play()
         }
     }
 }

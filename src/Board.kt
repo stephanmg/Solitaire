@@ -48,8 +48,44 @@ data class Board(val pegs: MutableMap<Pair<Int, Int>, Peg>, val moves: Int = 0) 
      */
     override fun toString(): String {
         val builder = StringBuilder()
-        for (peg in pegs) { builder.append(peg) }
-        return "Board with following pegs:\n$builder"
+        val size: Int = Math.sqrt(pegs.entries.size.toDouble()).toInt()
+        val matrix = Array<Array<PegType>>(size, init = { Array<PegType>(size, init = { PegType.EMPTY }) })
+        for (peg in pegs) {
+             matrix[peg.key.first][peg.key.second] = peg.value.value
+        }
+
+        builder.append("   ")
+        for (rowCount in 0..size-1) {
+            builder.append(" ${rowCount} ")
+        }
+        builder.append("   ")
+        builder.append("\n")
+        builder.append("-".repeat(3*size)); builder.append("-------")
+
+        builder.append("\n")
+        var lineCount = 0
+        for (line in matrix) {
+            builder.append("${lineCount} |")
+            for (value in line) {
+                when (value) {
+                    PegType.EMPTY -> builder.append(" O ")
+                    PegType.BOUNDARY -> builder.append(" X ")
+                    PegType.FULL -> builder.append(" * ")
+                }
+             }
+             builder.append("| ${lineCount}\n")
+             lineCount++
+           } 
+        builder.append("-".repeat(3*size)); builder.append("-------")
+        builder.append("\n")
+        builder.append("   ")
+        for (rowCount in 0..size-1) {
+            builder.append(" ${rowCount} ")
+        }
+        builder.append("   ")
+        builder.append("\n")
+    
+        return "$builder"
     }
 
     /**

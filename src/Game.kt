@@ -263,3 +263,45 @@ object GameUtils {
         }
     }
 }
+
+/**
+ * @brief Let the user play a very simple console game
+ */
+object ConsoleGame {
+    /**
+     * @brief play a console game
+     */
+    @JvmStatic 
+    fun play() {
+        println("*".repeat(44))
+        println("WELCOME to 2D Peg Solitaire")
+        println("Available board types: 1) CLASSIC 2) SQUARE")
+        println("*".repeat(44))
+        println(""); print("Choice: ")
+        val boardChoice: String = readLine()!!
+        var board: Board
+        when (boardChoice.toInt()) {
+            1 -> board = BoardFactory.board(BoardType.CLASSIC)
+            2 -> board = BoardFactory.board(BoardType.SQUARE)
+            else -> board = BoardFactory.board(BoardType.CLASSIC)
+        }
+
+        var lost = false
+        var move = 0
+        println("Initial board: \n${board}")
+        while (! lost) {
+            print("Chose jumping peg by coordinates (x, y): ")
+            val (xFrom, yFrom) = readLine()!!.split(",")
+            print("Chose destination of jumping peg by coordinates (x, y): ")
+            val (xTo, yTo) = readLine()!!.split(",")
+            val dirX = xFrom.toInt()-xTo.toInt()
+            val dirY = yFrom.toInt()-yTo.toInt()
+            val dir: Direction? = GameUtils.getJumpDirection(dirX, dirY)
+            if (dir != null) {
+               GameUtils.jump(board.pegs[Pair(xFrom.toInt(), yFrom.toInt())]!!, dir, board)
+               move++
+            }
+            println("Board after move ${move}: \n${board}")
+        }
+    }
+}
