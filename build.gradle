@@ -91,3 +91,9 @@ bintray {
 dependencies {
    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
 }
+
+task createKDoc(type: Copy) {
+   dependsOn dokkaJekyll 
+   from "build/dokka/Jekyll/"
+   into "docs/"
+}
