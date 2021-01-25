@@ -1,5 +1,5 @@
 ---
-title: Solitaire -
+title: Solitaire documentation
 ---
 //[Solitaire](index.md)
 
