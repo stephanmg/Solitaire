@@ -84,6 +84,8 @@ class GameSolver {
 
 /**
  * @brief a collection of useful game utilities
+ * 
+ * A collection of repetitive tasks
  */
 object GameUtils {
     /**
