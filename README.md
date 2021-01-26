@@ -17,13 +17,12 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 [![KDoc](https://img.shields.io/badge/KDoc-Kotlin%20Documentation-magenta.svg)](https://stephanmg.github.io/Solitaire/)
 
 
-## Features requests (Ordered by increasing priority)
-- Unit testing
+## Features requests (Ordered by increasing priority/popularity by players)
+- Serialize history of commands to allow for a replay of a game 
+- Adapt 2D solitaire to a 3D game (Add as option)
+- Support multiple game states to be saved and loaded in the GUI
 - Make look GUI more pretty, exchange JavaFX with TornadoFX, change board material
-- Serialize history of commands to allow for a replay of a game
-- Add a Javalin webinterface to play the game
-- Support multiple game states to be saved and loaded
-- Adapt 2D solitaire to 3D solitaire
+- Add a Javalin webinterface to play the game and deploy as cloud service
 
 ## Useful links
 - https://github.com/openjfx/javafx-gradle-plugin
