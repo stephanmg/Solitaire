@@ -49,5 +49,4 @@ data class Peg(private val id: Int=-1, var value: PegType=PegType.EMPTY, val i: 
      * @return deep-copied peg
      */
     fun copy() = Peg(this.id, this.value, this.i, this.j)
-
 }

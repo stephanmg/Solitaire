@@ -25,7 +25,7 @@ class PlayableGame(val type: BoardType) {
    * @brief reset the current game
    */
   public fun reset(): Unit {
-    reset.execute()
+     reset.execute()
   }
 
   init {
