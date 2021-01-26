@@ -18,6 +18,7 @@ class GUI : Application() {
     /// TODO: Improve alignment
     private val sizeX = 250.0*2+100
     private val sizeY = 260.0*2
+    private val moveLabelText: String = "Number of moves: 0"
 
     /**
      * @brief start the stage
@@ -32,7 +33,7 @@ class GUI : Application() {
         var count = 0
         var fromPosX: Int = -1
         var fromPosY: Int = -1
-        val moveLabel = Label("Number of moves: 0")
+        val moveLabel = Label(moveLabelText)
         var validMoves = 0
         var gameController = GameController(PlayableGame(BoardType.CLASSIC))
 
@@ -58,8 +59,7 @@ class GUI : Application() {
                 val dir: Direction? = GameUtils.getJumpDirection(jumpToX, jumpToY)
                 if (dir == null) {
                     /// if direction is invalid... do nothing
-                    curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
-                    nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+                    GUIUtils.stylize(curBtn, nextBtn)
                     curBtn = nextBtn
                    // else check if peg can legally jump in the current board in given direction
                 } else if (GameUtils.canJump(gameController.game.gameState!!.board.pegs[Pair(fromPosX, fromPosY)]!!, dir, gameController.game.gameState!!.board)) {
@@ -130,7 +130,7 @@ class GUI : Application() {
 
             /// reset number of moves
             validMoves = 0
-            moveLabel.text = "Number of moves: 0"
+            moveLabel.text = moveLabelText
 
             /// configure board
             configureBoardView()
