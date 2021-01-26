@@ -11,6 +11,7 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 
 ---
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7acf2542705a4f9d9e0f72bec2d0ab1b)](https://app.codacy.com/gh/stephanmg/Solitaire?utm_source=github.com&utm_medium=referral&utm_content=stephanmg/Solitaire&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1895090a5fe4f009f7835d0f7d5e1ca)](https://app.codacy.com/manual/stephan_5/Solitaire?utm_source=github.com&utm_medium=referral&utm_content=stephanmg/Solitaire&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://travis-ci.org/stephanmg/Solitaire.svg?branch=master)](https://travis-ci.org/stephanmg/Solitaire)
 [![Download](https://api.bintray.com/packages/stephanmg/Solitaire/0.0.1-nightly/images/download.svg) ](https://bintray.com/stephanmg/Solitaire/0.0.1-nightly/_latestVersion)
