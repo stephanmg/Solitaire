@@ -1,4 +1,7 @@
-import kotlinx.serialization.Serializable;
+package de.syntaktischer.zucker.Solitaire
+
+import kotlinx.serialization.Serializable
+import de.syntaktischer.zucker.Solitaire.*
 
 /**
  * @brief supported solitaire board types

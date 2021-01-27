@@ -1,3 +1,5 @@
+package de.syntaktischer.zucker.Solitaire
+
 /**
  * @brief controls the game (and thus moves and commands)
  * Note: !!! Currently only one game is allowed to be saved and restored !!!

@@ -1,3 +1,6 @@
+package de.syntaktischer.zucker.Solitaire
+import de.syntaktischer.zucker.Solitaire.*
+
 /**
  * @brief move peg east in current game 
  * @param game

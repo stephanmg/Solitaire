@@ -1,3 +1,6 @@
+package de.syntaktischer.zucker.Solitaire
+import de.syntaktischer.zucker.Solitaire.*
+
 /**
  * @brief manages the moves and undoable commands
  */

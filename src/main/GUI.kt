@@ -1,3 +1,5 @@
+package de.syntaktischer.zucker.Solitaire
+
 import javafx.application.Application
 import javafx.event.EventHandler
 import javafx.scene.Node
@@ -9,13 +11,21 @@ import javafx.scene.control.*
 import javafx.scene.paint.Color
 import javafx.stage.Popup
 import javafx.stage.Stage
+import de.syntaktischer.zucker.Solitaire.*
 
 /**
  * @brief Set up the JavaFX GUI 
  */
 class GUI : Application() {
+    /**
+     * @brief constants for GUI
+     */
+    class Constants {
+        companion object {
+            const val baseStyle = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+        }
+    }
     private var canStillWin = true
-    private val baseStyle = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
     /// TODO: Improve alignment
     private val sizeX = 250.0*2+100
     private val sizeY = 260.0*2
@@ -286,7 +296,7 @@ class GUI : Application() {
             if (value == PegType.BOUNDARY)
                 btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
             else
-                btn.style = baseStyle
+                btn.style = Constants.baseStyle
 
             gridPane.add(btn, j, i, 1, 1)
         }
@@ -323,8 +333,8 @@ class GUI : Application() {
      */
     @JvmStatic
     fun stylize(curBtn: Button?, nextBtn: Button?) {
-        curBtn!!.style = baseStyle
-        nextBtn!!.style = baseStyle                   
+        curBtn!!.style = GUI.Constants.baseStyle
+        nextBtn!!.style = GUI.Constants.baseStyle                   
     }
 
     /**

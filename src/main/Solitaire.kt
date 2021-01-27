@@ -1,4 +1,7 @@
+package de.syntaktischer.zucker.Solitaire
+
 import javafx.application.Application
+import de.syntaktischer.zucker.Solitaire.*
 
 /**
  * @brief main

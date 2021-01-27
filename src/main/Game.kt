@@ -1,3 +1,6 @@
+package de.syntaktischer.zucker.Solitaire
+
+import de.syntaktischer.zucker.Solitaire.*
 import java.util.LinkedList
 
 /**

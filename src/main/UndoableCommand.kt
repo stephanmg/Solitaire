@@ -1,3 +1,4 @@
+package de.syntaktischer.zucker.Solitaire
 /**
  * @brief UndoableCommand interface
  * All commands implementing this interface are deemed undoable

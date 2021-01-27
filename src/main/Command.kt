@@ -1,3 +1,5 @@
+package de.syntaktischer.zucker.Solitaire
+
 /**
  * @brief Command interface
  * All commands implementing this interface are deemed executable

@@ -1,4 +1,6 @@
-import kotlinx.serialization.Serializable;
+package de.syntaktischer.zucker.Solitaire
+
+import kotlinx.serialization.Serializable
 
 /**
  * @brief possible types of pegs in a board

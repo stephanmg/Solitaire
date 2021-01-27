@@ -1,8 +1,11 @@
+package de.syntaktischer.zucker.test.Solitaire
+
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import io.mockk.mockk
 import io.mockk.every
+import de.syntaktischer.zucker.Solitaire.*
 
 /**
  * @brief tests for the game behaviour
