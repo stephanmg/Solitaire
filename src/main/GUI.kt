@@ -15,6 +15,7 @@ import javafx.stage.Stage
  */
 class GUI : Application() {
     private var canStillWin = true
+    private val baseStyle = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
     /// TODO: Improve alignment
     private val sizeX = 250.0*2+100
     private val sizeY = 260.0*2
@@ -285,7 +286,7 @@ class GUI : Application() {
             if (value == PegType.BOUNDARY)
                 btn.style = "-fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey; -fx-background-color: lightgrey"
             else
-                btn.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+                btn.style = baseStyle
 
             gridPane.add(btn, j, i, 1, 1)
         }
@@ -322,8 +323,8 @@ class GUI : Application() {
      */
     @JvmStatic
     fun stylize(curBtn: Button?, nextBtn: Button?) {
-        curBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
-        nextBtn!!.style = "-fx-background-color: #f8f8ff; -fx-border-style: solid solid none solid; -fx-border-width: 1; -fx-border-color: grey"
+        curBtn!!.style = baseStyle
+        nextBtn!!.style = baseStyle                   
     }
 
     /**
