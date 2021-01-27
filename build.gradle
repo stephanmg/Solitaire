@@ -22,7 +22,7 @@ repositories {
 /// Simple JAR
 jar {
     manifest {
-        attributes 'Main-Class': 'Solitaire'
+        attributes 'Main-Class': 'de.syntaktischer-zucker.Solitaire.Solitaire'
     }
 }
 
@@ -42,7 +42,7 @@ task bundle(type: Jar) {
     }
 
     manifest {
-        attributes 'Main-Class': 'Solitaire'
+        attributes 'Main-Class': 'de.syntaktischer.zucker.Solitaire.Solitaire'
    }
 }
 
