@@ -30,11 +30,11 @@ class GUI : Application() {
         var gridPane = GridPane()
         var curBtn: Button? = null
         var nextBtn: Button?
-        var count = 0
+        var count: Int = 0
         var fromPosX: Int = -1
         var fromPosY: Int = -1
         val moveLabel = Label(moveLabelText)
-        var validMoves = 0
+        var validMoves: Int = 0
         var gameController = GameController(PlayableGame(BoardType.CLASSIC))
 
         /**
