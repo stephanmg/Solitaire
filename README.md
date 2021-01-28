@@ -21,8 +21,8 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 - Serialize history of commands to allow for a replay of a game 
 - Adapt 2D solitaire to a 3D game (Add as option)
 - Support multiple game states to be saved and loaded in the GUI
-- Make look GUI more pretty, exchange JavaFX with TornadoFX, change board material
-- Add a Javalin webinterface to play the game and deploy as cloud service
+- Improve GUI aesthetics and exchange JavaFX with TornadoFX
+- Add a Javalin webinterface to play the game and deploy as SaaS
 
 ## Useful links
 - https://github.com/openjfx/javafx-gradle-plugin

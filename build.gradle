@@ -63,12 +63,12 @@ bintray {
     pkg {
         repo = 'Solitaire'
         name = 'Solitaire'
-        desc = 'Fun implementation of Peg solitaire in Kotlin/JS with React UI'
+        desc = 'A Kotlin implementation of Peg solitaire in 2d and 3d using JavaFX/TornadoFX and a Javalin UI'
         userOrg = 'stephanmg'
         licenses = ['GPL-3.0']
         websiteUrl = 'https://github.com/stephanmg/Solitaire'
         issueTrackerUrl = 'https://github.com/stephanmg/Solitaire/issues'
-        labels = ['react', 'javafx', 'tornadofx']
+        labels = ['react', 'javafx', 'tornadofx', 'javalin', 'kotlin']
         vcsUrl = 'https://github.com/stephanmg/Solitaire'
         name = '0.0.1-nightly'
         version {
@@ -93,7 +93,6 @@ bintray {
 dependencies {
    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
    testImplementation 'io.mockk:mockk:1.10.5'
-   // testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.9'
    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.3'
    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.3'
 }
@@ -106,9 +105,7 @@ task createKDoc(type: Copy) {
 
 test {
     useJUnitPlatform()
-
     testLogging.showStandardStreams = true
-
     testLogging {
         events "PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"
     }
