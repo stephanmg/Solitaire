@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-16.04
-    env: JAVAFX_HOME="/usr/share/java/openjfx"
+    env: 
+         JAVAFX_HOME: "/usr/share/java/openjfx"
 
     steps:
       - uses: actions/checkout@v2
