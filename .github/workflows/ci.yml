@@ -14,7 +14,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install JavaFX
-        run: sudo apt-get -y install openjfx
+        run:
+            - sudo apt-get update
+            - sudo apt-get -y install openjfx
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1.4.3
