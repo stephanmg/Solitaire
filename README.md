@@ -14,6 +14,7 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1895090a5fe4f009f7835d0f7d5e1ca)](https://app.codacy.com/manual/stephan_5/Solitaire?utm_source=github.com&utm_medium=referral&utm_content=stephanmg/Solitaire&utm_campaign=Badge_Grade_Settings)
 [![Known Vulnerabilities](https://snyk.io/test/github/stephanmg/Solitaire/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/stephanmg/Solitaire?targetFile=build.gradle)
 [![Build Status](https://travis-ci.org/stephanmg/Solitaire.svg?branch=master)](https://travis-ci.org/stephanmg/Solitaire)
+![Documentation Status](https://github.com/stephanmg/Solitaire/workflows/KDoc/badge.svg?branch=master)
 [![Download](https://api.bintray.com/packages/stephanmg/Solitaire/0.0.1-nightly/images/download.svg) ](https://bintray.com/stephanmg/Solitaire/0.0.1-nightly/_latestVersion)
 [![KDoc](https://img.shields.io/badge/KDoc-Kotlin%20Documentation-magenta.svg)](https://stephanmg.github.io/Solitaire/)
 
