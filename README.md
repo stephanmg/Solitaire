@@ -17,6 +17,14 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 [![Download](https://api.bintray.com/packages/stephanmg/Solitaire/0.0.1-nightly/images/download.svg) ](https://bintray.com/stephanmg/Solitaire/0.0.1-nightly/_latestVersion)
 [![KDoc](https://img.shields.io/badge/KDoc-Kotlin%20Documentation-magenta.svg)](https://stephanmg.github.io/Solitaire/)
 
+## Game view and features
+- Save and load dialog of game state
+- Board selection
+- Undo / redo operations
+- Status bar indicating if game still can be won
+- Number of moves
+
+![Main GUI view](../assets/gui.png)
 
 ## Features requests (Ordered by increasing priority/popularity by players)
 - Serialize history of commands to allow for a replay of a game 
