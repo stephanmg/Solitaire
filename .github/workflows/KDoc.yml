@@ -30,3 +30,8 @@ jobs:
         with:
           name: Doc
           path: build/dokka/jekyll/
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with: 
+          name: Doc
