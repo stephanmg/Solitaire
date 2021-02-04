@@ -22,22 +22,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build KDoc
+      - name: Build KDoc 🔨
         run: ./gradlew createKDoc
 
-      - name: Upload KDoc
-        uses: actions/upload-artifact@v2
-        with:
-          name: Doc
-          path: build/dokka/jekyll/
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-
-      - name: Deploy 🚀
+      - name: Deploy KDoc 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build/dokka/jekyll/
+          FOLDER: build/dokka/jekyll/-solitaire/
           CLEAN: true 
