@@ -25,8 +25,8 @@ jobs:
       - name: Build KDoc
         run: ./gradlew createKDoc
 
-      - name: Upload fat jar
+      - name: Upload KDoc
         uses: actions/upload-artifact@v2
         with:
-          name: fat_jar
-          path: build/libs/Solitaire.jar
+          name: Doc
+          path: build/dokka/jekyll/
