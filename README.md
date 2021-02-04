@@ -25,7 +25,10 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 - Status bar indicating if game still can be won
 - Number of moves
 
-![Main GUI view](../assets/gui.png)
+<p align="center">
+   <img src="../assets/gui.png">
+
+</p>
 
 ## Features requests (Ordered by increasing priority/popularity by players)
 - Serialize history of commands to allow for a replay of a game 
