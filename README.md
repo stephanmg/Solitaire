@@ -27,8 +27,11 @@ Solutions are calculated by a level-based DFS which indicate to the user if a so
 
 <p align="center">
    <img src="../assets/gui.png">
-
 </p>
+
+## Howto play the game
+Download the game (Solitaire-bundled.jar) from the [here](https://dl.bintray.com/stephanmg/Solitaire/standalone_files/level1/).
+The game should execute after double-click as long as you have a Java runtime environment (JRE 7 or later) installed on your computer.
 
 ## Features requests (Ordered by increasing priority/popularity by players)
 - Serialize history of commands to allow for a replay of a game 
